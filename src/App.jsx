@@ -1,10 +1,14 @@
 import "./App.css";
+import Home from "./components/Home";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <>
-      <h1>Nagrow start</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
