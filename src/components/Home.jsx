@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import customer from "../assets/customer.json";
 import restaurant from "../assets/restaurant.json";
@@ -11,6 +12,7 @@ const Home = () => {
       title: "Customer",
       description: "Order delicious food from local restaurants.",
       animation: customer,
+      link: "/verification",
     },
     {
       title: "Restaurant",
@@ -58,9 +60,11 @@ const Home = () => {
               <p className="text-slate-700 text-xl text-center">
                 {role.description}
               </p>
-              <button className="cursor-pointer mt-5 py-1 px-5 rounded-xl text-white bg-[#ff5733] text-xl">
-                Go
-              </button>
+              <Link to={role.link}>
+                <button className="cursor-pointer mt-5 py-1 px-5 rounded-xl text-white bg-[#ff5733] text-xl">
+                  Go
+                </button>
+              </Link>
             </div>
           ))}
         </div>
