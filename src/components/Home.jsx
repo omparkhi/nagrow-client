@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import customer from "../assets/customer.json";
 import restaurant from "../assets/restaurant.json";
-import delivery from "../assets/delivery.json";
+import delivery from "../assets/delivery2.json";
 import rootBg from "../assets/rootBg.jpeg";
 
 const Home = () => {
