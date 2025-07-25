@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Loader from "../Loader";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+const UserLogin = () => {
+  const navigate = useNavigate();
   const [showpassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     phone: "",
     password: "",
   });
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,14 +25,50 @@ function LoginPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    setIsLogin(true);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/login",
+        formData
+      );
+      console.log(res.data);
+      if (res.data.token) {
+        localStorage.setItem("nagrow_token", res.data.token);
+        toast.success("Login Sucessfully");
+        navigate("/user-home");
+      } else {
+        toast.error("Login failed");
+      }
+    } catch (error) {
+      console.log("Login Failed", error);
+      toast.error("Login failed. Please check credentials.");
+    } finally {
+      setIsLogin(false);
+    }
   };
 
   return (
     <>
       <section className="min-h-screen w-full bg-white  text-center flex flex-col">
+        {isLogin && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "rgba(113, 113, 113, 0.58)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 50,
+            }}
+          >
+            <Loader />
+          </div>
+        )}
         <div className="bg-[#131222] rounded-b-[50px]">
           <div className="h-[30%] pt-20 pb-4">
             <h1 className="text-slate-200 font-bold text-4xl md:text-5xl ">
@@ -141,6 +183,6 @@ function LoginPage() {
       </section>
     </>
   );
-}
+};
 
-export default LoginPage;
+export default UserLogin;

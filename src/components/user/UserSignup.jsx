@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import axios from "axios";
+import Loader from "../Loader";
 
-function SignUpPage() {
+const UserSignup = () => {
+  const [isSignup, setIsSignup] = useState(false);
+  const navigate = useNavigate();
   const [showpassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     phone: "",
+    email: "",
     password: "",
   });
 
@@ -21,14 +26,52 @@ function SignUpPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    setIsSignup(true);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/register",
+        formData
+      );
+      console.log(res.data);
+      if (res.data.success) {
+        localStorage.setItem("nagrow_token", res.data.token);
+        console.log("User Registered Successfully!");
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${res.data.token}`;
+        navigate("/save-address");
+      } else {
+        console.log(res.data.message);
+      }
+    } catch (error) {
+      console.error("Registration Failed", error);
+    } finally {
+      setIsSignup(false);
+    }
   };
 
   return (
     <>
       <section className="min-h-screen w-full bg-white  text-center flex flex-col">
+        {isSignup && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "rgba(113, 113, 113, 0.58)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 50,
+            }}
+          >
+            <Loader />
+          </div>
+        )}
         <div className="bg-[#131222] rounded-b-[50px]">
           <div className="h-[30%] pt-20 pb-4">
             <h1 className="text-slate-200 font-bold text-4xl md:text-5xl ">
@@ -99,6 +142,22 @@ function SignUpPage() {
               maxLength={10}
               inputMode="numeric"
               placeholder="Enter your phone number"
+              className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
+            />
+
+            <label
+              className="block text-base mt-4 text-left text-gray-700 type"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              value={formData.email}
+              name="email"
+              onChange={handleChange}
+              type="email"
+              placeholder="Enter your Email"
               className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
             />
 
@@ -191,6 +250,6 @@ function SignUpPage() {
       </section>
     </>
   );
-}
+};
 
-export default SignUpPage;
+export default UserSignup;

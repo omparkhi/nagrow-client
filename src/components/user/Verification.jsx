@@ -1,33 +1,105 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Loader from "../Loader";
 
 const Verification = () => {
+  const navigate = useNavigate();
   const [phone, setPhone] = useState("");
   const [otpDisabled, setOtpDisabled] = useState(true);
   let [reSend, setReSend] = useState(0);
+  const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
+  const [isVerifying, setIsVerifying] = useState(false);
 
-  const handleSendOtp = (e) => {
-    if (phone.length == 10) {
-      e.preventDefault();
-      setOtpDisabled(false);
-      console.log("Otp sent successfully");
-      console.log(otpDisabled);
-      setReSend(10);
-      const interval = setInterval(() => {
-        setReSend((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    } else {
+  const handleSendOtp = async (e) => {
+    e.preventDefault();
+    if (phone.length !== 10) {
       console.log("Please enter a valid 10-digit phone number");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:3000/api/users/send-otp", {
+        phone,
+      });
+      console.log(res.data);
+      if (res.data.success) {
+        setOtpDisabled(false);
+        console.log("Otp sent successfully");
+        // console.log(otpDisabled);
+        setReSend(60);
+        const interval = setInterval(() => {
+          setReSend((prev) => {
+            if (prev <= 1) {
+              clearInterval(interval);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      } else {
+        console.log("Failed to send otp");
+      }
+    } catch (error) {
+      console.log("Error sending OTP", error);
     }
   };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    const otp = otpValues.join("");
+    if (otp.length !== 6) {
+      console.log("Please enter a valid 6-digit OTP");
+      return;
+    }
+    setIsVerifying(true);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/verify-otp",
+        { phone, otp }
+      );
+      if (res.data.success) {
+        console.log("Phone Number Verified successfully");
+        navigate("/user-signup");
+      } else {
+        console.log("Invalid OTP");
+      }
+    } catch (error) {
+      console.log("Failed to verify", error);
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
   return (
-    <section className="min-h-screen w-full bg-white  text-center flex flex-col ">
+    <section className="min-h-screen w-full bg-white  text-center flex flex-col relative">
+      {isVerifying && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(113, 113, 113, 0.58)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 50,
+          }}
+        >
+          <Loader />
+          <p
+            style={{
+              fontSize: "1rem",
+              fontWeight: "bold",
+              color: "#777777ff",
+              marginTop: "25px",
+            }}
+          >
+            Verifying OTP...
+          </p>
+        </div>
+      )}
       <div className="bg-[#131222] rounded-b-[50px]">
         <div className="h-[30%] pt-20 pb-4">
           <h1 className="text-slate-200 font-bold text-4xl md:text-5xl ">
@@ -107,7 +179,17 @@ const Verification = () => {
                     }`}
                     disabled={otpDisabled}
                     onInput={(e) => {
-                      e.target.value = e.target.value.replace(/\D/g, "");
+                      const val = e.target.value.replace(/\D/g, "");
+                      if (val.length <= 1) {
+                        const newOtpValues = [...otpValues];
+                        newOtpValues[i] = val;
+                        setOtpValues(newOtpValues);
+
+                        //auto focus to next otp input
+                        if (val && e.target.nextSibling) {
+                          e.target.nextSibling.focus();
+                        }
+                      }
                     }}
                   />
                 ))}
@@ -119,10 +201,11 @@ const Verification = () => {
           </div> */}
 
           <button
+            onClick={handleVerifyOtp}
             className={`bg-[#ff5733] text-white w-full py-3 rounded-md font-bold mt-5  ${
               otpDisabled
                 ? "cursor-not-allowed bg-[#ff5733]/50"
-                : "cursor-pointer hover:bg-[#e43a14]"
+                : "cursor-pointer hover:bg-[#e43a14]  "
             }`}
             disabled={otpDisabled}
           >
