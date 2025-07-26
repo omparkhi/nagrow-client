@@ -21,7 +21,7 @@ const SaveLocation = () => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         try {
-          const token = localStorage.getItem("nagrow_token");
+          const token = localStorage.getItem("token");
           const res = await axios.post(
             "http://localhost:3000/api/users/save-address",
             { label: "Home", latitude, longitude },

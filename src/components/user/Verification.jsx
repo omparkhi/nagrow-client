@@ -61,6 +61,7 @@ const Verification = () => {
       );
       if (res.data.success) {
         console.log("Phone Number Verified successfully");
+        localStorage.setItem("verified", "verified");
         navigate("/user-signup");
       } else {
         console.log("Invalid OTP");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
@@ -37,11 +37,13 @@ const UserSignup = () => {
       );
       console.log(res.data);
       if (res.data.success) {
-        localStorage.setItem("nagrow_token", res.data.token);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userType", "user");
         console.log("User Registered Successfully!");
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res.data.token}`;
+        localStorage.removeItem("verified");
         navigate("/save-address");
       } else {
         console.log(res.data.message);
@@ -52,6 +54,13 @@ const UserSignup = () => {
       setIsSignup(false);
     }
   };
+
+  useEffect(() => {
+    const verified = localStorage.getItem("verified");
+    if (!verified) {
+      navigate("/user-verification");
+    }
+  }, []);
 
   return (
     <>

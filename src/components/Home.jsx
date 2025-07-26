@@ -12,7 +12,7 @@ const Home = () => {
       title: "Customer",
       description: "Order delicious food from local restaurants.",
       animation: customer,
-      link: "/user-verification",
+      link: "/customer-options",
     },
     {
       title: "Restaurant",
