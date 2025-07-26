@@ -10,6 +10,9 @@ import Loader from "./components/Loader";
 import SaveLocation from "./components/user/UserSaveLocation";
 import UserDash from "./components/user/UserDash";
 import ProtectedRoute from "./components/user/ProtectedRoute";
+import RestaurantSignUp from "./components/restaurant/RestaurantSignUp";
+import RestaurantLogin from "./components/restaurant/RestaurantLogin";
+import RestaurantDash from "./components/restaurant/RestaurantDash";
 
 function App() {
   return (
@@ -20,6 +23,17 @@ function App() {
         <Route path="/user-verification" element={<Verification />} />
         <Route path="/user-signup" element={<UserSignup />} />
         <Route path="/user-login" element={<UserLogin />} />
+        <Route path="/restaurant-signup" element={<RestaurantSignUp />} />
+        <Route path="/restaurant-login" element={<RestaurantLogin />} />
+        <Route
+          path="/restaurant-home"
+          element={
+            <ProtectedRoute>
+              <RestaurantDash />
+            </ProtectedRoute>
+          }
+        />
+       
         <Route path="/save-address" element={<SaveLocation />} />
         <Route
           path="/user-home"
