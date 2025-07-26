@@ -9,16 +9,20 @@ import UserSignup from "./components/user/UserSignup";
 import Loader from "./components/Loader";
 import SaveLocation from "./components/user/UserSaveLocation";
 import UserDash from "./components/user/UserDash";
-import ProtectedRoute from "./components/user/ProtectedRoute";
+import ProtectedRoute from "./components/user/ProtectedRoute"
 import RestaurantSignUp from "./components/restaurant/RestaurantSignUp";
 import RestaurantLogin from "./components/restaurant/RestaurantLogin";
 import RestaurantDash from "./components/restaurant/RestaurantDash";
+import HomeRedirector from "./components/HomeRedirector";
+import UserRoleOptions from "../../nagrow-client-test/src/components/user/UserRoleOptions";
 
 function App() {
   return (
     <BrowserRouter>
       <ToastContainer />
       <Routes>
+        <Route path="/" element={<HomeRedirector />} />
+        <Route path="/customer-options" element={<UserRoleOptions />} />
         <Route path="/home" element={<Home />} />
         <Route path="/user-verification" element={<Verification />} />
         <Route path="/user-signup" element={<UserSignup />} />

@@ -8,7 +8,7 @@ const UserDash = () => {
   const [homeAddress, setHomeAddress] = useState(null);
 
   const handleLogOut = () => {
-    localStorage.removeItem("nagrow_token");
+    localStorage.removeItem("token");
     toast.success("Logged out successfully!");
     setTimeout(() => {
       navigate("/user-login");
@@ -18,7 +18,7 @@ const UserDash = () => {
   useEffect(() => {
     const fetchAddress = async () => {
       try {
-        const token = localStorage.getItem("nagrow_token");
+        const token = localStorage.getItem("token");
         const res = await axios.get(
           "http://localhost:3000/api/users/get-address",
           {

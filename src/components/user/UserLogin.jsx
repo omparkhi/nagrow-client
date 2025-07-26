@@ -36,7 +36,8 @@ const UserLogin = () => {
       );
       console.log(res.data);
       if (res.data.token) {
-        localStorage.setItem("nagrow_token", res.data.token);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userType", "user");
         toast.success("Login Sucessfully");
         navigate("/user-home");
       } else {
