@@ -9,17 +9,15 @@ import {
   LogOut,
   Search,
   PlusCircle,
-  Menu
+  Menu,
 } from "lucide-react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
 
-
-   const handleLogOut = () => {
+  const handleLogOut = () => {
     localStorage.removeItem("token");
     toast.success("Logged out successfully!");
     setTimeout(() => {
@@ -45,7 +43,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <SidebarItem icon={<BarChart2 size={20} />} label="Analytics" />
         <SidebarItem icon={<Image size={20} />} label="Media" />
         <SidebarItem icon={<Settings size={20} />} label="Settings" />
-        <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={handleLogOut}/>
+        <SidebarItem
+          icon={<LogOut size={20} />}
+          label="Logout"
+          onClick={handleLogOut}
+        />
       </nav>
     </div>
   );
@@ -66,7 +68,9 @@ const MainContent = ({ toggleSidebar }) => {
           <button className="sm:hidden" onClick={toggleSidebar}>
             <Menu size={24} />
           </button>
-          <h1 className="text-xl sm:text-2xl font-semibold">Restaurant Dashboard</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold">
+            Restaurant Dashboard
+          </h1>
         </div>
         <div className="flex items-center bg-white rounded shadow px-4 py-2 w-full ml-4 sm:w-64 ">
           <Search className="text-gray-400" size={18} />
@@ -103,7 +107,8 @@ const MainContent = ({ toggleSidebar }) => {
         <div className="bg-white p-4 rounded shadow">
           <h2 className="font-semibold mb-2">Restaurant Info</h2>
           <p className="text-sm text-gray-600">
-            ABC Restaurant, Street 4, City<br />
+            ABC Restaurant, Street 4, City
+            <br />
             Open: 10 AM - 11 PM
           </p>
         </div>

@@ -18,6 +18,7 @@ const Home = () => {
       title: "Restaurant",
       description: "Partner with NaGrow to reach more customers.",
       animation: restaurant,
+      link: "/restaurant-login",
     },
     {
       title: "Delivery Partner",

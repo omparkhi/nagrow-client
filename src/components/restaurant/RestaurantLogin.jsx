@@ -16,10 +16,9 @@ const RestaurantLogin = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData({ ...formData, [name]: value });
-};
-
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +31,8 @@ const RestaurantLogin = () => {
       );
       console.log(res.data);
       if (res.data.token) {
-        localStorage.setItem("nagrow_token", res.data.token);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userType", "restaurant");
         toast.success("Login Sucessfully");
         navigate("/restaurant-home");
       } else {
@@ -68,7 +68,7 @@ const RestaurantLogin = () => {
         <div className="bg-[#131222] rounded-b-[50px]">
           <div className="h-[30%] pt-20 pb-4">
             <h1 className="text-slate-200 font-bold text-4xl md:text-5xl ">
-               Restaurant Log In
+              Restaurant Log In
             </h1>
             <p className="text-slate-400 text-xl">
               Please sign in to your existing account
@@ -81,22 +81,21 @@ const RestaurantLogin = () => {
           className="bg-white flex justify-center lg:py-4 py-8"
         >
           <div className="w-full max-w-lg bg-white text-black rounded-[15px] lg:border-2 border-[#f4f1f7] p-4">
-              
-           <label
-           className="block text-gray-700 mt-2 text-left w-full"
-           htmlFor="email"
-         >
-           Email
-           </label>
-           <input
-           id="email"
-           value={formData.email}
-           onChange={handleChange}
-           name="email"
-           type="email"
-           placeholder="Enter your email"
-           className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
-                     />
+            <label
+              className="block text-gray-700 mt-2 text-left w-full"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              value={formData.email}
+              onChange={handleChange}
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
+            />
 
             <label
               className="block mt-4 text-left w-full text-gray-700"

@@ -13,9 +13,9 @@ const HomeRedirector = () => {
         case "user":
           navigate("/user-home");
           break;
-        // case "restaurant":
-        //   navigate("/restaurant/dashboard");
-        //   break;
+        case "restaurant":
+          navigate("/restaurant-home");
+          break;
         // case "rider":
         //   navigate("/rider/dashboard");
         //   break;

@@ -4,7 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const RestaurantSignUp = ()=> {
+const RestaurantSignUp = () => {
   const [showpassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -76,9 +76,12 @@ const RestaurantSignUp = ()=> {
       );
       console.log(res.data);
       if (res.data.success) {
-        localStorage.setItem("nagrow_token", res.data.token);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
-        navigate("/restaurant-login");
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userType", "restaurant");
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${res.data.token}`;
+        navigate("/restaurant-home");
       } else {
         console.log(res.data.message);
       }
@@ -91,14 +94,13 @@ const RestaurantSignUp = ()=> {
     }
   };
 
-
   return (
     <>
       <section className="min-h-screen w-full bg-white  text-center flex flex-col">
         <div className="bg-[#131222] rounded-b-[50px]">
           <div className="h-[30%] pt-20 pb-4">
             <h1 className="text-slate-200 font-bold text-4xl md:text-5xl ">
-               Restaurant Sign Up
+              Restaurant Sign Up
             </h1>
             <p className="text-slate-400 text-xl">
               Please sign up for a new account
@@ -111,43 +113,41 @@ const RestaurantSignUp = ()=> {
           className="bg-white flex justify-center lg:py-4 py-8"
         >
           <div className="w-full max-w-lg bg-white text-black rounded-[15px] lg:border-2 border-[#f4f1f7] p-4">
-           
-              <div className="flex flex-col w-full">
-                <label
-                  className="block text-gray-700 mt-2 text-left w-full"
-                  htmlFor="name"
-                >
-                  Restaurant Name
-                </label>
-                <input
-                  id="name"
-                  value={formData.name}
-                  name="name"
-                  onChange={handleChange}
-                  type="text"
-                  placeholder="Enter your Restaurant Name"
-                  className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
-                />
-              </div>
+            <div className="flex flex-col w-full">
+              <label
+                className="block text-gray-700 mt-2 text-left w-full"
+                htmlFor="name"
+              >
+                Restaurant Name
+              </label>
+              <input
+                id="name"
+                value={formData.name}
+                name="name"
+                onChange={handleChange}
+                type="text"
+                placeholder="Enter your Restaurant Name"
+                className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
+              />
+            </div>
 
-              <div className="flex flex-col w-full">
-                <label
-                  className="block text-gray-700 mt-2 text-left w-full"
-                  htmlFor="ownername"
-                >
-                  Owner Name
-                </label>
-                <input
-                  id="ownername"
-                  value={formData.ownername}
-                  name="ownername"
-                  onChange={handleChange}
-                  type="text"
-                  placeholder="Enter your Name"
-                  className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
-                />
-              </div>
-            
+            <div className="flex flex-col w-full">
+              <label
+                className="block text-gray-700 mt-2 text-left w-full"
+                htmlFor="ownername"
+              >
+                Owner Name
+              </label>
+              <input
+                id="ownername"
+                value={formData.ownername}
+                name="ownername"
+                onChange={handleChange}
+                type="text"
+                placeholder="Enter your Name"
+                className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
+              />
+            </div>
 
             <label
               className="block text-base mt-4 text-left text-gray-700 type"
@@ -168,13 +168,13 @@ const RestaurantSignUp = ()=> {
               className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
             />
 
-           <label
-           className="block text-base mt-4 text-left text-gray-700"
-          htmlFor="email"
-          >
+            <label
+              className="block text-base mt-4 text-left text-gray-700"
+              htmlFor="email"
+            >
               Email
-          </label>
-          <input
+            </label>
+            <input
               id="email"
               value={formData.email}
               name="email"
@@ -182,7 +182,7 @@ const RestaurantSignUp = ()=> {
               type="email"
               placeholder="Enter your email"
               className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
-          />
+            />
 
             <label
               className="block text-base mt-4 text-left text-gray-700"
@@ -229,22 +229,24 @@ const RestaurantSignUp = ()=> {
               </div>
             </div>
 
-
-
             <div className="flex flex-col sm:flex-row  sm:gap-4 gap-0">
               <div className="flex flex-col w-full">
-                <label className="block text-gray-700 mt-4 text-left">Street</label>
+                <label className="block text-gray-700 mt-4 text-left">
+                  Street
+                </label>
                 <input
-                name="street"
+                  name="street"
                   value={formData.address.street}
                   onChange={handleChange}
                   placeholder="123 Food Street"
                   className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
                 />
               </div>
-              
+
               <div className="flex flex-col w-full mt-2">
-                <label className="block text-gray-700 mt-2 text-left">City</label>
+                <label className="block text-gray-700 mt-2 text-left">
+                  City
+                </label>
                 <input
                   name="city"
                   value={formData.address.city}
@@ -253,31 +255,32 @@ const RestaurantSignUp = ()=> {
                   className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
                 />
               </div>
-              
-             
             </div>
 
-             <label className="block text-gray-700 mt-2 text-left">State</label>
-              <input
-                name="state"
-                value={formData.address.state}
-                onChange={handleChange}
-                placeholder="Maharashtra"
-                className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
-              />
+            <label className="block text-gray-700 mt-2 text-left">State</label>
+            <input
+              name="state"
+              value={formData.address.state}
+              onChange={handleChange}
+              placeholder="Maharashtra"
+              className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
+            />
 
+            <label className="block text-gray-700 mt-2 text-left">
+              Pincode
+            </label>
+            <input
+              name="pincode"
+              value={formData.address.pincode}
+              onChange={handleChange}
+              placeholder="411001"
+              maxLength={6}
+              className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
+            />
 
-              <label className="block text-gray-700 mt-2 text-left">Pincode</label>
-              <input
-             name="pincode"
-             value={formData.address.pincode}
-             onChange={handleChange}
-             placeholder="411001"
-             maxLength={6}
-            className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
-             />
-
-            <label className="block text-gray-700 mt-4 text-left">Cuisine Type</label>
+            <label className="block text-gray-700 mt-4 text-left">
+              Cuisine Type
+            </label>
             <input
               name="cuisine"
               value={formData.cuisine}
@@ -285,8 +288,10 @@ const RestaurantSignUp = ()=> {
               placeholder="e.g. Indian, Chinese"
               className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
             />
-            
-            <label className="block text-gray-700 mt-2 text-left">Delivery Time Estimate</label>
+
+            <label className="block text-gray-700 mt-2 text-left">
+              Delivery Time Estimate
+            </label>
             <input
               name="deliveryTimeEstimate"
               value={formData.deliveryTimeEstimate}
@@ -294,7 +299,7 @@ const RestaurantSignUp = ()=> {
               placeholder="e.g. 30-45 mins"
               className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
             />
-            
+
             <div className="flex justify-between items-center mt-4 flex-wrap text-sm">
               <div className="flex items-center gap-2">
                 <input
@@ -342,6 +347,6 @@ const RestaurantSignUp = ()=> {
       </section>
     </>
   );
-}
+};
 
 export default RestaurantSignUp;

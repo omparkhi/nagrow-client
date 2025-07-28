@@ -9,7 +9,7 @@ import UserSignup from "./components/user/UserSignup";
 import Loader from "./components/Loader";
 import SaveLocation from "./components/user/UserSaveLocation";
 import UserDash from "./components/user/UserDash";
-import ProtectedRoute from "./components/user/ProtectedRoute"
+import ProtectedRoute from "./components/user/ProtectedRoute";
 import RestaurantSignUp from "./components/restaurant/RestaurantSignUp";
 import RestaurantLogin from "./components/restaurant/RestaurantLogin";
 import RestaurantDash from "./components/restaurant/RestaurantDash";
@@ -18,6 +18,7 @@ import UserRoleOptions from "./components/user/UserRoleOptions";
 import RiderSignUp from "./components/rider/RiderSignUp";
 import RiderLogin from "./components/rider/RiderLogin";
 import RiderDash from "./components/rider/RiderDash";
+import RestaurantProtectedRoute from "./components/restaurant/RestaurantProtectedRoute";
 
 function App() {
   return (
@@ -34,9 +35,8 @@ function App() {
         <Route path="/restaurant-login" element={<RestaurantLogin />} />
         <Route path="/rider-signup" element={<RiderSignUp />} />
         <Route path="/rider-login" element={<RiderLogin />} />
-        
 
-          <Route
+        <Route
           path="/rider-home"
           element={
             <ProtectedRoute>
@@ -48,12 +48,12 @@ function App() {
         <Route
           path="/restaurant-home"
           element={
-            <ProtectedRoute>
+            <RestaurantProtectedRoute>
               <RestaurantDash />
-            </ProtectedRoute>
+            </RestaurantProtectedRoute>
           }
         />
-       
+
         <Route path="/save-address" element={<SaveLocation />} />
         <Route
           path="/user-home"
