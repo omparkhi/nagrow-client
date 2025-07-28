@@ -14,7 +14,10 @@ import RestaurantSignUp from "./components/restaurant/RestaurantSignUp";
 import RestaurantLogin from "./components/restaurant/RestaurantLogin";
 import RestaurantDash from "./components/restaurant/RestaurantDash";
 import HomeRedirector from "./components/HomeRedirector";
-import UserRoleOptions from "../../nagrow-client-test/src/components/user/UserRoleOptions";
+import UserRoleOptions from "./components/user/UserRoleOptions";
+import RiderSignUp from "./components/rider/RiderSignUp";
+import RiderLogin from "./components/rider/RiderLogin";
+import RiderDash from "./components/rider/RiderDash";
 
 function App() {
   return (
@@ -29,6 +32,19 @@ function App() {
         <Route path="/user-login" element={<UserLogin />} />
         <Route path="/restaurant-signup" element={<RestaurantSignUp />} />
         <Route path="/restaurant-login" element={<RestaurantLogin />} />
+        <Route path="/rider-signup" element={<RiderSignUp />} />
+        <Route path="/rider-login" element={<RiderLogin />} />
+        
+
+          <Route
+          path="/rider-home"
+          element={
+            <ProtectedRoute>
+              <RiderDash />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/restaurant-home"
           element={
