@@ -15,9 +15,12 @@ import RestaurantLogin from "./components/restaurant/RestaurantLogin";
 import RestaurantDash from "./components/restaurant/RestaurantDash";
 import HomeRedirector from "./components/HomeRedirector";
 import UserRoleOptions from "./components/user/UserRoleOptions";
+<<<<<<< Updated upstream
 import RiderSignUp from "./components/rider/RiderSignUp";
 import RiderLogin from "./components/rider/RiderLogin";
 import RiderDash from "./components/rider/RiderDash";
+=======
+>>>>>>> Stashed changes
 import RestaurantProtectedRoute from "./components/restaurant/RestaurantProtectedRoute";
 
 function App() {
@@ -42,6 +45,9 @@ function App() {
             <ProtectedRoute>
               <RiderDash />
             </ProtectedRoute>
+            <RestaurantProtectedRoute>
+              <RestaurantDash />
+            </RestaurantProtectedRoute>
           }
         />
 

@@ -7,3 +7,55 @@ body {
   font-family: "Nunito", sans-serif;
   background-color: #fff;
 }
+
+/* Add in your global CSS or component CSS file */
+.slide-up-placeholder {
+  display: inline-block;
+  transition: transform 0.6s ease-in-out;
+  will-change: transform;
+}
+
+@layer utilities {
+  .bg-static-stripes {
+    background: repeating-conic-gradient(
+      from 0deg,
+      #3b82f6 0deg 10deg,
+      #2563eb 10deg 20deg
+    );
+    /* mask-image: radial-gradient(circle, white 0%, transparent 100%); */
+  }
+}
+
+@keyframes floatSmooth {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-smooth {
+  animation: floatSmooth 3s ease-in-out infinite;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(3deg); }
+  20% { transform: rotate(-3deg); }
+  30% { transform: rotate(3deg); }
+  40% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+  60% { transform: rotate(-3deg); }
+  70% { transform: rotate(2deg); }
+  80% { transform: rotate(-2deg); }
+  90% { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake-once {
+  animation: shake 1s ease-in-out;
+}
+
+
+

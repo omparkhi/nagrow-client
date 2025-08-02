@@ -57,8 +57,11 @@ const UserSignup = () => {
 
   useEffect(() => {
     const verified = localStorage.getItem("verified");
+    const verifiedPhone = localStorage.getItem("verifiedPhone");
     if (!verified) {
       navigate("/user-verification");
+    } else {
+      setFormData((prev) => ({...prev, phone: verifiedPhone || ""}));
     }
   }, []);
 
@@ -141,18 +144,23 @@ const UserSignup = () => {
             >
               Phone Number
             </label>
-            <input
-              id="phone"
-              value={formData.phone}
-              name="phone"
-              onChange={handleChange}
-              type="tel"
-              pattern="[0-9]{10}"
-              maxLength={10}
-              inputMode="numeric"
-              placeholder="Enter your phone number"
-              className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
-            />
+            <div className="flex justify-between items-center w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa]">
+              <input
+                id="phone"
+                value={formData.phone}
+                name="phone"
+                type="tel"
+                disabled
+                pattern="[0-9]{10}"
+                maxLength={10}
+                inputMode="numeric"
+                placeholder="Enter your phone number"
+                className="border-none focus:outline-none cursor-not-allowed"
+              />
+              <span className="ml-2 text-green-600 font-semibold text-sm">
+                Verified 
+              </span>
+            </div>
 
             <label
               className="block text-base mt-4 text-left text-gray-700 type"
