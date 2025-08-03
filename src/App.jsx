@@ -21,6 +21,13 @@ import RiderDash from "./components/rider/RiderDash";
 
 import RestaurantProtectedRoute from "./components/restaurant/RestaurantProtectedRoute";
 import DocumentVerification from "./components/restaurant/DocumentVerification";
+import RiderProtectedRoute from "./components/rider/RiderProtectedRoute";
+
+import AdminSignup from "./components/admin/AdminSigup";
+import AdminLogin from "./components/admin/AdminLogin";
+import AdminDash from "./components/admin/AdminDash";
+import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
+
 function App() {
   return (
     <BrowserRouter>
@@ -37,14 +44,25 @@ function App() {
         <Route path="/rider-signup" element={<RiderSignUp />} />
         <Route path="/rider-login" element={<RiderLogin />} />
         <Route path="/restaurant-verify" element={<DocumentVerification />} />
+        
+        <Route path="/admin-signup" element={<AdminSignup />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
 
+        <Route
+          path="/admin-home"
+          element={
+            <AdminProtectedRoute>
+              <AdminDash />
+            </AdminProtectedRoute>
+          }
+        />
 
         <Route
           path="/rider-home"
           element={
-            <ProtectedRoute>
+            <RiderProtectedRoute>
               <RiderDash />
-            </ProtectedRoute>
+            </RiderProtectedRoute>
           }
         />
 

@@ -6,23 +6,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const UserLogin = () => {
+const AdminLogin = () => {
   const navigate = useNavigate();
   const [showpassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    phone: "",
+    email: "",
     password: "",
   });
   const [isLogin, setIsLogin] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "phone") {
-      const onlyDigits = value.replace(/\D/g, "");
-      setFormData({ ...formData, [name]: onlyDigits });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -31,17 +26,17 @@ const UserLogin = () => {
     setIsLogin(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/login",
+        "http://localhost:3000/api/admin/login",
         formData
       );
       console.log(res.data);
-      const {user} = res.data;
+      const{admin}= res.data;
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("userType", "user");
-        localStorage.setItem("userId", user.id);
+        localStorage.setItem("userType", "admin");
+        localStorage.setItem("adminId", admin.id);
         toast.success("Login Sucessfully");
-        navigate("/user-home");
+        navigate("/admin-home");
       } else {
         toast.error("Login failed");
       }
@@ -75,7 +70,7 @@ const UserLogin = () => {
         <div className="bg-[#131222] rounded-b-[50px]">
           <div className="h-[30%] pt-20 pb-4">
             <h1 className="text-slate-200 font-bold text-4xl md:text-5xl ">
-              Log In
+              Admin Log In
             </h1>
             <p className="text-slate-400 text-xl">
               Please sign in to your existing account
@@ -90,27 +85,19 @@ const UserLogin = () => {
           <div className="w-full max-w-lg bg-white text-black rounded-[15px] lg:border-2 border-[#f4f1f7] p-4">
             <label
               className="block text-gray-700 mt-2 text-left w-full"
-              htmlFor="phone"
+              htmlFor="email"
             >
-              Phone Number
+              Email
             </label>
-            <div className="w-full flex justify-between ">
-              <p className="text-gray-700 w-[10%] sm-px-2 mt-1 py-2.5 rounded-l-lg bg-silver border-r-1 border-r-slate-300 bg-[#f0f5fa]">
-                +91
-              </p>
-              <input
-                id="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                name="phone"
-                type="tel"
-                pattern="[0-9]{10}"
-                maxLength={10}
-                inputMode="numeric"
-                placeholder="Enter your phone number"
-                className=" w-[90%] mt-1 px-4 py-2.5 rounded-r-lg bg-silver border-none focus:outline-none bg-[#f0f5fa]"
-              />
-            </div>
+            <input
+              id="email"
+              value={formData.email}
+              onChange={handleChange}
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] border-none focus:outline-none"
+            />
 
             <label
               className="block mt-4 text-left w-full text-gray-700"
@@ -159,28 +146,12 @@ const UserLogin = () => {
             <p className="text-center text-sm mt-5">
               Don’t have an account?{" "}
               <Link
-                to="/signup"
+                to="/admin-signup"
                 className="text-[#ff5733] text-sm font-semibold"
               >
                 SIGN UP
               </Link>
             </p>
-
-            <div className="text-center my-4">
-              <span className="text-sm text-gray-600">or</span>
-            </div>
-
-            <div className="flex justify-around mt-4">
-              <button className="w-10 h-10 rounded-full bg-[#3b5998] text-white text-lg">
-                f
-              </button>
-              <button className="w-10 h-10 rounded-full bg-[#1da1f2] text-white text-lg">
-                t
-              </button>
-              <button className="w-10 h-10 rounded-full bg-black text-white text-lg">
-                a
-              </button>
-            </div>
           </div>
         </form>
       </section>
@@ -188,4 +159,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default AdminLogin;

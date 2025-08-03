@@ -44,9 +44,11 @@ const RiderLogin = () => {
         formData
       );
       console.log(res.data);
+      const{rider} = res.data;
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userType", "rider");
+        localStorage.setItem("riderId", rider._id);
         toast.success("Login Sucessfully");
         navigate("/rider-home");
       } else {

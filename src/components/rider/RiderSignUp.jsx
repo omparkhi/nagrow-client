@@ -57,10 +57,13 @@ const RiderSignUp = ()=> {
         "http://localhost:3000/api/rider/register",
         formData
       );
+      const{rider}= res.data;
+      
       console.log(res.data);
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userType", "rider");
+        localStorage.setItem("riderId", rider._id);
         axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
         navigate("/rider-home");
       } else {

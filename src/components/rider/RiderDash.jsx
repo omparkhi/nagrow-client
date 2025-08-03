@@ -12,6 +12,10 @@ const RiderDash = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token"); 
+    localStorage.removeItem("userType"); 
+    localStorage.removeItem("riderId"); 
+
+
     navigate("/rider-login");
   };
 

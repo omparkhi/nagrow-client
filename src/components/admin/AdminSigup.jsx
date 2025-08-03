@@ -4,7 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import Loader from "../Loader";
 
-const UserSignup = () => {
+const AdminSignup = () => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const [showpassword, setShowPassword] = useState(false);
@@ -32,21 +32,20 @@ const UserSignup = () => {
     setIsSignup(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/register",
+        "http://localhost:3000/api/admin/register",
         formData
       );
       console.log(res.data);
-      const{user} = res.data;
+      const{admin} = res.data;
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("userType", "user");
-        localStorage.setItem("userId", user.id);
+        localStorage.setItem("userType", "admin");
+        localStorage.setItem("adminId", admin.id);
         console.log("User Registered Successfully!");
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res.data.token}`;
-        localStorage.removeItem("verified");
-        navigate("/save-address");
+        navigate("/admin-login");
       } else {
         console.log(res.data.message);
       }
@@ -57,15 +56,7 @@ const UserSignup = () => {
     }
   };
 
-  useEffect(() => {
-    const verified = localStorage.getItem("verified");
-    const verifiedPhone = localStorage.getItem("verifiedPhone");
-    if (!verified) {
-      navigate("/user-verification");
-    } else {
-      setFormData((prev) => ({...prev, phone: verifiedPhone || ""}));
-    }
-  }, []);
+
 
   return (
     <>
@@ -151,17 +142,15 @@ const UserSignup = () => {
                 id="phone"
                 value={formData.phone}
                 name="phone"
+                onChange={handleChange} 
                 type="tel"
-                disabled
+                required
                 pattern="[0-9]{10}"
                 maxLength={10}
                 inputMode="numeric"
                 placeholder="Enter your phone number"
-                className="border-none focus:outline-none cursor-not-allowed"
+                className="border-none focus:outline-none "
               />
-              <span className="ml-2 text-green-600 font-semibold text-sm">
-                Verified 
-              </span>
             </div>
 
             <label
@@ -242,28 +231,12 @@ const UserSignup = () => {
             <p className="text-center text-sm mt-5">
               Already have an account?{" "}
               <Link
-                to="/login"
+                to="/admin-login"
                 className="text-[#ff5733] text-sm font-semibold"
               >
                 LOG IN
               </Link>
             </p>
-
-            <div className="text-center my-4">
-              <span className="text-sm text-gray-600">or</span>
-            </div>
-
-            <div className="flex justify-around mt-4">
-              <button className="w-10 h-10 rounded-full bg-[#3b5998] text-white text-lg">
-                f
-              </button>
-              <button className="w-10 h-10 rounded-full bg-[#1da1f2] text-white text-lg">
-                t
-              </button>
-              <button className="w-10 h-10 rounded-full bg-black text-white text-lg">
-                a
-              </button>
-            </div>
           </div>
         </form>
       </section>
@@ -271,4 +244,4 @@ const UserSignup = () => {
   );
 };
 
-export default UserSignup;
+export default AdminSignup;
