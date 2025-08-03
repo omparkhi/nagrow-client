@@ -74,10 +74,13 @@ const RestaurantSignUp = () => {
         "http://localhost:3000/api/restaurants/register",
         payload
       );
+      const{ restaurant }=res.data;
       console.log(res.data);
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userType", "restaurant");
+        localStorage.setItem("restaurantId", restaurant._id);
+
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res.data.token}`;

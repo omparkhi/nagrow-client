@@ -19,7 +19,7 @@ import RiderSignUp from "./components/rider/RiderSignUp";
 import RiderLogin from "./components/rider/RiderLogin";
 import RiderDash from "./components/rider/RiderDash";
 import RestaurantProtectedRoute from "./components/restaurant/RestaurantProtectedRoute";
-
+import DocumentVerification from "./components/restaurant/DocumentVerification";
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +35,8 @@ function App() {
         <Route path="/restaurant-login" element={<RestaurantLogin />} />
         <Route path="/rider-signup" element={<RiderSignUp />} />
         <Route path="/rider-login" element={<RiderLogin />} />
+        <Route path="/restaurant-verify" element={<DocumentVerification />} />
+
 
         <Route
           path="/rider-home"

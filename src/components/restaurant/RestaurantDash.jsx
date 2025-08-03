@@ -21,9 +21,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     localStorage.removeItem("token");
     toast.success("Logged out successfully!");
     setTimeout(() => {
-      navigate("/user-login");
+      navigate("/restaurant-login");
     }, 1500);
   };
+
   return (
     <div
       className={`fixed sm:static z-40 top-0 left-0 sm:h-screen h-full w-64 bg-gray-900 text-white p-4 space-y-6 transform transition-transform duration-300 ease-in-out ${
@@ -36,25 +37,26 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           ✕
         </button>
       </div>
+
       <nav className="space-y-4">
-        <SidebarItem icon={<Home size={20} />} label="Dashboard" />
+        <SidebarItem icon={<Home size={20} />} label="Dashboard" onClick={() => navigate("/restaurant-home")} />
         <SidebarItem icon={<List size={20} />} label="Menu Items" />
         <SidebarItem icon={<ClipboardList size={20} />} label="Orders" />
         <SidebarItem icon={<BarChart2 size={20} />} label="Analytics" />
         <SidebarItem icon={<Image size={20} />} label="Media" />
+        <SidebarItem icon={<ClipboardList size={20} />} label="Verification" onClick={() => navigate("/restaurant-verify")} />
         <SidebarItem icon={<Settings size={20} />} label="Settings" />
-        <SidebarItem
-          icon={<LogOut size={20} />}
-          label="Logout"
-          onClick={handleLogOut}
-        />
+        <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={handleLogOut} />
       </nav>
     </div>
   );
 };
 
-const SidebarItem = ({ icon, label }) => (
-  <div className="flex items-center space-x-3 hover:bg-gray-800 p-2 rounded cursor-pointer">
+const SidebarItem = ({ icon, label, onClick }) => (
+  <div
+    className="flex items-center space-x-3 hover:bg-gray-800 p-2 rounded cursor-pointer"
+    onClick={onClick}
+  >
     {icon}
     <span className="text-sm sm:text-base">{label}</span>
   </div>
@@ -68,11 +70,9 @@ const MainContent = ({ toggleSidebar }) => {
           <button className="sm:hidden" onClick={toggleSidebar}>
             <Menu size={24} />
           </button>
-          <h1 className="text-xl sm:text-2xl font-semibold">
-            Restaurant Dashboard
-          </h1>
+          <h1 className="text-xl sm:text-2xl font-semibold">Restaurant Dashboard</h1>
         </div>
-        <div className="flex items-center bg-white rounded shadow px-4 py-2 w-full ml-4 sm:w-64 ">
+        <div className="flex items-center bg-white rounded shadow px-4 py-2 w-full ml-4 sm:w-64">
           <Search className="text-gray-400" size={18} />
           <input
             type="text"

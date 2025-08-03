@@ -11,14 +11,14 @@ const RiderDash = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // clear token
-    navigate("/rider-login"); // redirect to login page
+    localStorage.removeItem("token"); 
+    navigate("/rider-login");
   };
 
   return (
     <section className="min-h-screen bg-[#f5f5f5] text-black p-6">
       <div className="max-w-5xl mx-auto">
-        {/* Top Section with Status and Logout */}
+
         <div className="bg-white p-6 rounded-2xl shadow-md mb-6 flex items-center justify-between flex-wrap">
           <button
             onClick={toggleStatus}
@@ -40,7 +40,6 @@ const RiderDash = () => {
           </button>
         </div>
 
-        {/* Stats Section */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="bg-white p-4 rounded-xl shadow flex items-center gap-4">
             <Bike className="text-orange-500 w-8 h-8" />

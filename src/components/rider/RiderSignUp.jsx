@@ -60,8 +60,9 @@ const RiderSignUp = ()=> {
       console.log(res.data);
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userType", "rider");
         axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
-        navigate("/rider-login");
+        navigate("/rider-home");
       } else {
         console.log(res.data.message);
       }
@@ -100,7 +101,7 @@ const RiderSignUp = ()=> {
                   className="block text-gray-700 mt-2 text-left w-full"
                   htmlFor="name"
                 >
-                  Rider Name
+                Rider Name
                 </label>
                 <input
                   id="name"
@@ -136,7 +137,7 @@ const RiderSignUp = ()=> {
            className="block text-base mt-4 text-left text-gray-700"
           htmlFor="email"
           >
-              Email
+           Email
           </label>
           <input
               id="email"

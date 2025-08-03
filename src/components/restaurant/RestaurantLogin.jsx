@@ -30,9 +30,11 @@ const RestaurantLogin = () => {
         formData
       );
       console.log(res.data);
+      const{restaurant}= res.data;
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userType", "restaurant");
+        localStorage.setItem("restaurantId", restaurant._id);
         toast.success("Login Sucessfully");
         navigate("/restaurant-home");
       } else {

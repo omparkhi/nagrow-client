@@ -46,6 +46,7 @@ const RiderLogin = () => {
       console.log(res.data);
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userType", "rider");
         toast.success("Login Sucessfully");
         navigate("/rider-home");
       } else {
