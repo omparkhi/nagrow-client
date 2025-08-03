@@ -19,6 +19,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
+// <<<<<<< Updated upstream
+// =======
+     localStorage.removeItem("userType");
+// >>>>>>> Stashed changes
     toast.success("Logged out successfully!");
     setTimeout(() => {
       navigate("/restaurant-login");

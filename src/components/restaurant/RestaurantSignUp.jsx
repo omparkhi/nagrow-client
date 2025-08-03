@@ -79,11 +79,12 @@ const RestaurantSignUp = () => {
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userType", "restaurant");
-        localStorage.setItem("restaurantId", restaurant._id);
-
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res.data.token}`;
+// =======
+        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+// >>>>>>> Stashed changes
         navigate("/restaurant-home");
       } else {
         console.log(res.data.message);

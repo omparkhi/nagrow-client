@@ -18,6 +18,7 @@ import UserRoleOptions from "./components/user/UserRoleOptions";
 import RiderSignUp from "./components/rider/RiderSignUp";
 import RiderLogin from "./components/rider/RiderLogin";
 import RiderDash from "./components/rider/RiderDash";
+
 import RestaurantProtectedRoute from "./components/restaurant/RestaurantProtectedRoute";
 import DocumentVerification from "./components/restaurant/DocumentVerification";
 function App() {
