@@ -140,6 +140,9 @@ const UserDash = () => {
               <div><p className="text-xl text-white font-semibold ml-1" style= {{
             color: navbarOpacity > 0.1 ? "#000" : "#fff"
         }} >{homeAddress.label}</p>
+        <p className="text-sm truncate max-w-[200px]" style={{ color: navbarOpacity > 0.1 ? "#333" : "#ddd" }}>
+           {homeAddress.fullAddress}
+        </p>
               
               </div>
             ) : (

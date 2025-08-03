@@ -21,17 +21,39 @@ const SaveLocation = () => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         try {
+          //Fetch Address using OpenCage Reverse Geocoding API
+          // const OPENCAGE_API_KEY = "d308f8652b8b435f877ae2de28835b5d";
+          const LOCATIONIQ_API_KEY = "pk.28ac1ab42612b71b8864afafe77a77c9";
+          // const geoResponse = await axios.get(
+          //   `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${OPENCAGE_API_KEY}`
+          // );
+          const geoResponse = await axios.get(
+              `https://us1.locationiq.com/v1/reverse.php?key=${LOCATIONIQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
+            );
+          let address = "";
+          if(geoResponse.data && geoResponse.data.display_name) {
+            address = geoResponse.data.display_name;
+            console.log("Fetched Address:", address);
+          } else {
+            console.error("No address found");
+            alert("Failed to fetch address.");
+            setAccessing(false);
+            return;
+          }
+
+          // save to backend
           const token = localStorage.getItem("token");
           const res = await axios.post(
             "http://localhost:3000/api/users/save-address",
-            { label: "Home", latitude, longitude },
+            { label: "Home", latitude, longitude, fullAddress: address },
             { headers: { Authorization: `Bearer ${token}` } }
           );
           console.log(res.data);
           alert("Location Saved Successfully");
           navigate("/user-home");
         } catch (error) {
-          console.error("Failed to save address", error);
+          console.error("Error while saving location", error);
+          alert("Failed to save location"); 
         } finally {
           setAccessing(false);
         }
