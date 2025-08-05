@@ -8,7 +8,7 @@ import UserLogin from "./components/user/UserLogin";
 import UserSignup from "./components/user/UserSignup";
 import Loader from "./components/Loader";
 import SaveLocation from "./components/user/UserSaveLocation";
-import UserDash from "./components/user/UserDash";
+import UserDash from "./components/user/UserDash/UserDash";
 import ProtectedRoute from "./components/user/ProtectedRoute";
 import RestaurantSignUp from "./components/restaurant/RestaurantSignUp";
 import RestaurantLogin from "./components/restaurant/RestaurantLogin";

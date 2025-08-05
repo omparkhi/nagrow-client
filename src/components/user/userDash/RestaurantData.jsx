@@ -1,16 +1,16 @@
-import cake from '../../assets/categoryImage/cake.png';
-import cholebhature from '../../assets/categoryImage/cholebhature.png';
-import dosa from '../../assets/categoryImage/dosa.png';
-import icecream from '../../assets/categoryImage/ice-cream.png';
-import idli from '../../assets/categoryImage/idli.png';
-import momos from '../../assets/categoryImage/momos.png';
-import pavbhaji from '../../assets/categoryImage/pavbhaji.png';
-import pizza from '../../assets/categoryImage/pizza.png';
-import plainburger from '../../assets/categoryImage/plainburger.png';
-import samosa from '../../assets/categoryImage/samosa.png';
-import sandwich from '../../assets/categoryImage/sandwich.png';
-import saoji from '../../assets/categoryImage/saoji.png';
-import thali from '../../assets/categoryImage/thali.png';
+// import cake from '../../assets/categoryImage/cake.png';
+// import cholebhature from '../../assets/categoryImage/cholebhature.png';
+// import dosa from '../../assets/categoryImage/dosa.png';
+// import icecream from '../../assets/categoryImage/ice-cream.png';
+// import idli from '../../assets/categoryImage/idli.png';
+// import momos from '../../assets/categoryImage/momos.png';
+// import pavbhaji from '../../assets/categoryImage/pavbhaji.png';
+// import pizza from '../../assets/categoryImage/pizza.png';
+// import plainburger from '../../assets/categoryImage/plainburger.png';
+// import samosa from '../../assets/categoryImage/samosa.png';
+// import sandwich from '../../assets/categoryImage/sandwich.png';
+// import saoji from '../../assets/categoryImage/saoji.png';
+// import thali from '../../assets/categoryImage/thali.png';
 
 const RestaurantData = [
   {
