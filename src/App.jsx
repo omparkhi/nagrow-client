@@ -8,7 +8,7 @@ import UserLogin from "./components/user/UserLogin";
 import UserSignup from "./components/user/UserSignup";
 import Loader from "./components/Loader";
 import SaveLocation from "./components/user/UserSaveLocation";
-import UserDash from "./components/user/UserDash/UserDash";
+import UserDash from "./components/user/userDash/UserDash";
 import ProtectedRoute from "./components/user/ProtectedRoute";
 import RestaurantSignUp from "./components/restaurant/RestaurantSignUp";
 import RestaurantLogin from "./components/restaurant/RestaurantLogin";
@@ -28,6 +28,10 @@ import AdminLogin from "./components/admin/AdminLogin";
 import AdminDash from "./components/admin/AdminDash";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
+import AddressCard from "./components/user/userAddress/AddressCard";
+import MapModalPage from "./components/user/userAddress/MapModalPage";
+import CurrentLocationMapModal from "./components/user/userAddress/CurrentLocationMapModal";
+
 function App() {
   return (
     <BrowserRouter>
@@ -44,9 +48,14 @@ function App() {
         <Route path="/rider-signup" element={<RiderSignUp />} />
         <Route path="/rider-login" element={<RiderLogin />} />
         <Route path="/restaurant-verify" element={<DocumentVerification />} />
-        
         <Route path="/admin-signup" element={<AdminSignup />} />
         <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/address-page" element={<AddressCard />} />
+        <Route path="/map" element={<MapModalPage />} />
+        <Route
+          path="/map/current-location"
+          element={<CurrentLocationMapModal />}
+        />
 
         <Route
           path="/admin-home"

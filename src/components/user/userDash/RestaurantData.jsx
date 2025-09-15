@@ -16,7 +16,8 @@ const RestaurantData = [
   {
     id: 1,
     name: "Pintu Saoji Restaurant",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqSwpR145E7c1qQCeNCIDf1PX9pGJM6IvUlw&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqSwpR145E7c1qQCeNCIDf1PX9pGJM6IvUlw&s",
     rating: "3.8",
     tags: "Biryani, North Indian",
     distance: "3.9 km",
@@ -29,7 +30,8 @@ const RestaurantData = [
   {
     id: 2,
     name: "Chinese Hut",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyhrelgj2VUN-uTrk46aiy9wX3QDjLi-bDBA&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyhrelgj2VUN-uTrk46aiy9wX3QDjLi-bDBA&s",
     rating: "4.3",
     tags: "Chinese, Fast Food",
     distance: "0.5 km",
@@ -42,7 +44,8 @@ const RestaurantData = [
   {
     id: 3,
     name: "Pizza Planet",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_b18AhX_x9OGzOALgqMRzkatTATIQB3fIww&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_b18AhX_x9OGzOALgqMRzkatTATIQB3fIww&s",
     rating: "4.5",
     tags: "Pizza, Italian",
     distance: "2.1 km",
@@ -55,7 +58,8 @@ const RestaurantData = [
   {
     id: 4,
     name: "Chole Bhature King",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnv8nOd0cc9Nemr_y1JLV41wTUUBg3vYAq2w&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnv8nOd0cc9Nemr_y1JLV41wTUUBg3vYAq2w&s",
     rating: "4.2",
     tags: "Punjabi, North Indian",
     distance: "1.2 km",
@@ -68,7 +72,8 @@ const RestaurantData = [
   {
     id: 5,
     name: "Dosa Delight",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7P9-ECimzMDQMWGiu2XnSWErvEqRmz5rTaw&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7P9-ECimzMDQMWGiu2XnSWErvEqRmz5rTaw&s",
     rating: "4.6",
     tags: "South Indian",
     distance: "2.8 km",
@@ -81,7 +86,8 @@ const RestaurantData = [
   {
     id: 6,
     name: "Samosa Junction",
-    image: "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/samosa-recipe.jpg",
+    image:
+      "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/samosa-recipe.jpg",
     rating: "4.0",
     tags: "Snacks, Fast Food",
     distance: "1.5 km",
@@ -94,7 +100,8 @@ const RestaurantData = [
   {
     id: 7,
     name: "Burger Hub",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuoS6_wIXY5dx2M4H88TE4UhSXA87yaOtz7w&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuoS6_wIXY5dx2M4H88TE4UhSXA87yaOtz7w&s",
     rating: "4.4",
     tags: "Burgers, Fast Food",
     distance: "3.0 km",
@@ -102,12 +109,13 @@ const RestaurantData = [
     deliveryTime: "25-30 MINS",
     freeDelivery: false,
     location: "Mankapur",
-    dishName: "IceCream"
+    dishName: "IceCream",
   },
   {
     id: 8,
     name: "Paneer Paradise",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ35Bs4lyhxKgPTt9qL5z1KZPzeQaSyiUvzw&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ35Bs4lyhxKgPTt9qL5z1KZPzeQaSyiUvzw&s",
     rating: "4.1",
     tags: "Paneer Dishes",
     distance: "2.4 km",
@@ -120,7 +128,8 @@ const RestaurantData = [
   {
     id: 9,
     name: "Ice Cream Factory",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2bed8h7eVqZcOaNrCCFYEKRSYwsRJQZ9Rg&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2bed8h7eVqZcOaNrCCFYEKRSYwsRJQZ9Rg&s",
     rating: "4.7",
     tags: "Desserts, Ice Cream",
     distance: "2.0 km",
@@ -128,12 +137,13 @@ const RestaurantData = [
     deliveryTime: "15-20 MINS",
     freeDelivery: true,
     location: "Mankapur",
-    dishName: "Momos"
+    dishName: "Momos",
   },
   {
     id: 10,
     name: "Rolls Corner",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6DslmYNmoKF1TEhbQd2KpMEVTjCM3VUWEXw&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6DslmYNmoKF1TEhbQd2KpMEVTjCM3VUWEXw&s",
     rating: "4.3",
     tags: "Rolls, Wraps",
     distance: "1.8 km",
@@ -141,12 +151,13 @@ const RestaurantData = [
     deliveryTime: "20-25 MINS",
     freeDelivery: false,
     location: "Pratap Nagar",
-    dishName: "Rolls"
+    dishName: "Rolls",
   },
   {
     id: 11,
     name: "Thali Junction",
-    image: "https://content.jdmagicbox.com/v2/comp/mumbai/n4/022pxx22.xx22.190131150924.y2n4/catalogue/thalis-of-india-chembur-mumbai-home-delivery-restaurants-odew9zikwf.jpg",
+    image:
+      "https://content.jdmagicbox.com/v2/comp/mumbai/n4/022pxx22.xx22.190131150924.y2n4/catalogue/thalis-of-india-chembur-mumbai-home-delivery-restaurants-odew9zikwf.jpg",
     rating: "4.5",
     tags: "North Indian, Thali",
     distance: "2.5 km",
@@ -159,7 +170,8 @@ const RestaurantData = [
   {
     id: 12,
     name: "Cake Walk",
-    image: "https://theobroma.in/cdn/shop/files/BlackForestCake_400x400.jpg?v=1750341419",
+    image:
+      "https://theobroma.in/cdn/shop/files/BlackForestCake_400x400.jpg?v=1750341419",
     rating: "4.8",
     tags: "Bakery, Desserts",
     distance: "1.0 km",
@@ -172,7 +184,8 @@ const RestaurantData = [
   {
     id: 13,
     name: "Pav Bhaji House",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKhv9wsRRqtdGNvC--uQ3Yctnjh2XRZJ0Mfw&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKhv9wsRRqtdGNvC--uQ3Yctnjh2XRZJ0Mfw&s",
     rating: "4.2",
     tags: "Fast Food, Mumbai Special",
     distance: "3.2 km",
@@ -180,12 +193,13 @@ const RestaurantData = [
     deliveryTime: "25-30 MINS",
     freeDelivery: true,
     location: "Civil Lines",
-    dishName: "PavBhaji"
+    dishName: "PavBhaji",
   },
   {
     id: 14,
     name: "Idli World",
-    image: "https://www.awesomecuisine.com/wp-content/uploads/2007/11/Idli-with-sambar-and-chutney.jpg",
+    image:
+      "https://www.awesomecuisine.com/wp-content/uploads/2007/11/Idli-with-sambar-and-chutney.jpg",
     rating: "4.1",
     tags: "South Indian",
     distance: "2.0 km",
@@ -193,12 +207,13 @@ const RestaurantData = [
     deliveryTime: "20-25 MINS",
     freeDelivery: false,
     location: "Mahal",
-    dishName: "Idli"
+    dishName: "Idli",
   },
   {
     id: 15,
     name: "Momos Point",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVPvcZIxeA9bZukK18CymY32OqFUTVbkKXgQ&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVPvcZIxeA9bZukK18CymY32OqFUTVbkKXgQ&s",
     rating: "4.4",
     tags: "Chinese, Snacks",
     distance: "1.7 km",
@@ -210,7 +225,8 @@ const RestaurantData = [
   {
     id: 16,
     name: "Shravan Specials",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQULDPkJ8PfjDLulqB88WVtf4NmF2X_EurAIg&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQULDPkJ8PfjDLulqB88WVtf4NmF2X_EurAIg&s",
     rating: "4.6",
     tags: "Pure Veg, Fasting",
     distance: "2.5 km",
@@ -223,7 +239,8 @@ const RestaurantData = [
   {
     id: 17,
     name: "Chaat Bazaar",
-    image: "https://c.ndtvimg.com/2022-02/o9a9hsuo_papadi-chaat_650x300_26_February_22.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886",
+    image:
+      "https://c.ndtvimg.com/2022-02/o9a9hsuo_papadi-chaat_650x300_26_February_22.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886",
     rating: "4.3",
     tags: "Chaat, Street Food",
     distance: "1.9 km",
@@ -231,12 +248,13 @@ const RestaurantData = [
     deliveryTime: "10-15 MINS",
     freeDelivery: true,
     location: "Laxmi Nagar",
-    dishName: "Chaat"
+    dishName: "Chaat",
   },
   {
     id: 18,
     name: "Wrap & Roll",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6DslmYNmoKF1TEhbQd2KpMEVTjCM3VUWEXw&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6DslmYNmoKF1TEhbQd2KpMEVTjCM3VUWEXw&s",
     rating: "4.2",
     tags: "Wraps, Fast Food",
     distance: "2.8 km",
@@ -249,7 +267,8 @@ const RestaurantData = [
   {
     id: 19,
     name: "Burger Blast",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuoS6_wIXY5dx2M4H88TE4UhSXA87yaOtz7w&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuoS6_wIXY5dx2M4H88TE4UhSXA87yaOtz7w&s",
     rating: "4.4",
     tags: "Burgers, Snacks",
     distance: "3.0 km",
@@ -262,7 +281,8 @@ const RestaurantData = [
   {
     id: 20,
     name: "Paneer Palace",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ35Bs4lyhxKgPTt9qL5z1KZPzeQaSyiUvzw&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ35Bs4lyhxKgPTt9qL5z1KZPzeQaSyiUvzw&s",
     rating: "4.5",
     tags: "Paneer Specials, North Indian",
     distance: "2.3 km",
@@ -270,7 +290,7 @@ const RestaurantData = [
     deliveryTime: "25-30 MINS",
     freeDelivery: false,
     location: "Dharampeth",
-    dishName: "Paneer"
+    dishName: "Paneer",
   },
 ];
 

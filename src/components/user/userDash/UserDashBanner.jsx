@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useAddress } from "../../context/AddressContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Lottie from "lottie-react";
@@ -12,8 +13,9 @@ import "../../../App.css";
 import { MdHome } from "react-icons/md";
 
 const UserDashBanner = () => {
+  const { addresses, loading } = useAddress();
   const navigate = useNavigate();
-  const [homeAddress, setHomeAddress] = useState(null);
+  // const [homeAddress, setHomeAddress] = useState(null);
   const placeholder = ["Cake", "Pizza", "Biryani", "Burger", "Thali"];
   const [index, setIndex] = useState(0);
   const [inputValue, setInputValue] = useState("");
@@ -22,6 +24,8 @@ const UserDashBanner = () => {
   const [isVegOnly, setIsVegOnly] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+
+  const homeAddress = addresses[0] || null;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,23 +36,6 @@ const UserDashBanner = () => {
     }, 3000); // Every 6 seconds
 
     return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
-    const fetchAddress = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get(
-          "http://localhost:3000/api/users/get-address",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        if (res.data.success) {
-          setHomeAddress(res.data.addresses[0]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch address", error);
-      }
-    };
-    fetchAddress();
   }, []);
 
   useEffect(() => {
@@ -71,18 +58,22 @@ const UserDashBanner = () => {
     }
   }, [index]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 50);
-      });
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     requestAnimationFrame(() => {
+  //       setIsScrolled(window.scrollY > 50);
+  //     });
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
-  const navbarOpacity = Math.min(scrollY / 100, 1);
+  // const navbarOpacity = Math.min(scrollY / 100, 1);
+
+  const handleAddressCard = () => {
+    navigate("/address-page");
+  };
 
   return (
     <>
@@ -91,49 +82,53 @@ const UserDashBanner = () => {
         {/* Top Navbar Grid Layout */}
         <div
           className="flex items-center justify-between flex-wrap  top-0 left-0 w-full px-6 py-4 mb-4 transition-all duration-200"
-          style={{
-            backgroundColor: `rgba(255, 255, 255, ${navbarOpacity})`,
-            color: navbarOpacity > 0.5 ? "#000" : "#fff",
-            boxShadow:
-              navbarOpacity > 0.2 ? "0 2px 10px rgba(0,0,0,0.1)" : "none",
-          }}
+          // style={{
+          //   backgroundColor: `rgba(255, 255, 255, ${navbarOpacity})`,
+          //   color: navbarOpacity > 0.5 ? "#000" : "#fff",
+          //   boxShadow:
+          //     navbarOpacity > 0.2 ? "0 2px 10px rgba(0,0,0,0.1)" : "none",
+          // }}
         >
           {/* Location (Left) */}
           <div className="relative flex flex-col">
-            <div className="relative flex items-center">
+            <div
+              className="relative flex items-center cursor-pointer"
+              onClick={handleAddressCard}
+            >
               <MdHome
-                className="text-2xl aligns-center text-white -mt-1 "
-                style={{
-                  color: navbarOpacity > 0.1 ? "#000" : "#fff",
-                  // boxShadow: navbarOpacity > 0.2 ? "0 2px 10px rgba(0,0,0,0.1)" : "none",
-                }}
+                className="text-2xl aligns-center text-[#ff5733] -mt-1"
+                // style={{
+                //   color: navbarOpacity > 0.1 ? "#000" : "#fff",
+                //   boxShadow: navbarOpacity > 0.2 ? "0 2px 10px rgba(0,0,0,0.1)" : "none",
+                // }}
               />
               <p
                 className="text-xl text-white font-bold ml-1"
-                style={{
-                  color: navbarOpacity > 0.1 ? "#000" : "#fff",
-                }}
+                // style={{
+                //   color: navbarOpacity > 0.1 ? "#000" : "#fff",
+                // }}
               >
                 Home
               </p>
               <FiChevronDown
                 className="text-xl text-slate-200"
-                style={{
-                  color: navbarOpacity > 0.1 ? "#000" : "#fff",
-                }}
+                // style={{
+                //   color: navbarOpacity > 0.1 ? "#000" : "#fff",
+                // }}
               />
             </div>
-            {homeAddress ? (
-              // <div>
-              <p className="text-[0.8rem] truncate text-black max-w-[200px] -mt-1">
-                {homeAddress.fullAddress}
+
+            {loading ? (
+              <p className="text-[0.85rem] truncate text-[#6e6e6e] max-w-[200px] -mt-1">
+                Fetching Location...
+              </p>
+            ) : homeAddress ? (
+              <p className="text-[0.85rem] truncate text-slate-300 max-w-[200px] -mt-1">
+                {homeAddress.formattedAddress}
               </p>
             ) : (
-              <p
-                className="text-lg text-gray-400"
-                style={{ color: navbarOpacity > 0.1 ? "#000" : "#fff" }}
-              >
-                Fetching Location...
+              <p className="text-[0.85rem] truncate text-[#6e6e6e] max-w-[200px] -mt-1">
+                No saved address found
               </p>
             )}
           </div>

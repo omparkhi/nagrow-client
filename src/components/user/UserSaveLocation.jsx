@@ -10,42 +10,26 @@ const SaveLocation = () => {
   const navigate = useNavigate();
   const [accessing, setAccessing] = useState(false);
 
-  const handleAccessLocation = async (e) => {
+  const handleAccessLocation = async () => {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
       return;
     }
+
     setAccessing(true);
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         try {
-          //Fetch Address using OpenCage Reverse Geocoding API
-          // const OPENCAGE_API_KEY = "d308f8652b8b435f877ae2de28835b5d";
-          const LOCATIONIQ_API_KEY = "pk.28ac1ab42612b71b8864afafe77a77c9";
-          // const geoResponse = await axios.get(
-          //   `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${OPENCAGE_API_KEY}`
-          // );
-          const geoResponse = await axios.get(
-              `https://us1.locationiq.com/v1/reverse.php?key=${LOCATIONIQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
-            );
-          let address = "";
-          if(geoResponse.data && geoResponse.data.display_name) {
-            address = geoResponse.data.display_name;
-            console.log("Fetched Address:", address);
-          } else {
-            console.error("No address found");
-            alert("Failed to fetch address.");
-            setAccessing(false);
-            return;
-          }
-
-          // save to backend
           const token = localStorage.getItem("token");
           const res = await axios.post(
             "http://localhost:3000/api/users/save-address",
-            { label: "Home", latitude, longitude, fullAddress: address },
+            {
+              label: "Home", // You can make it dynamic later
+              latitude,
+              longitude,
+            },
             { headers: { Authorization: `Bearer ${token}` } }
           );
           console.log(res.data);
@@ -53,7 +37,7 @@ const SaveLocation = () => {
           navigate("/user-home");
         } catch (error) {
           console.error("Error while saving location", error);
-          alert("Failed to save location"); 
+          alert("Failed to save location");
         } finally {
           setAccessing(false);
         }
@@ -65,6 +49,7 @@ const SaveLocation = () => {
       }
     );
   };
+
   return (
     <section className="min-h-screen w-full bg-white text-center flex flex-col">
       {accessing && (
