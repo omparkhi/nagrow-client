@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import AddMenuItemForm from "./AddMenuItemForm";
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
 
@@ -65,8 +65,7 @@ const SidebarItem = ({ icon, label, onClick }) => (
     <span className="text-sm sm:text-base">{label}</span>
   </div>
 );
-
-const MainContent = ({ toggleSidebar }) => {
+const MainContent = ({ toggleSidebar, onAddItemClick }) => {
   return (
     <div className="flex-1 p-4 sm:p-6 bg-gray-100 min-h-screen">
       <div className="flex items-center justify-between mb-6">
@@ -95,7 +94,10 @@ const MainContent = ({ toggleSidebar }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="bg-white p-4 rounded shadow">
           <h2 className="font-semibold mb-2">Add New Menu Item</h2>
-          <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <button
+            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            onClick={onAddItemClick}
+          >
             <PlusCircle size={18} /> Add Item
           </button>
         </div>
@@ -121,16 +123,37 @@ const MainContent = ({ toggleSidebar }) => {
   );
 };
 
+
+
+
 const RestaurantDash = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const restaurantId = localStorage.getItem("restaurantId");
+
+
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
   return (
-    <div className="flex flex-col sm:flex-row">
+    <div className="flex flex-col sm:flex-row relative">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      <MainContent toggleSidebar={toggleSidebar} />
+      <MainContent toggleSidebar={toggleSidebar} onAddItemClick={() => setShowForm(true)} />
+
+      {showForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <AddMenuItemForm
+            restaurantId={restaurantId}
+            onClose={() => setShowForm(false)}
+            onSuccess={(item) => {
+              console.log("Menu item added:", item);
+              setShowForm(false);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
+
 
 export default RestaurantDash;
