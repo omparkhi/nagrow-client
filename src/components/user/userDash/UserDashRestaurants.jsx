@@ -15,8 +15,10 @@ import { AiOutlineClockCircle, AiFillStar } from "react-icons/ai"; // Ant Design
 import { FiHeart } from "react-icons/fi"; // Feather Outline Heart
 import { FiBookmark } from "react-icons/fi";
 import { FiClock } from "react-icons/fi";
+import axios from "axios";
 
 const UserDashRestaurants = () => {
+  const [restaurants, setRestaurants] = useState([]);
   const [isBookMark, setIsBookMark] = useState({});
   const [isFavorited, setIsFavorited] = useState({});
 
@@ -33,6 +35,21 @@ const UserDashRestaurants = () => {
     }));
   };
 
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/api/restaurants/home"
+        );
+        console.log(res.data.restaurants);
+        setRestaurants(res.data.restaurants);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchRestaurants();
+  }, []);
+
   return (
     <>
       {/* //RestaurantData */}
@@ -42,16 +59,16 @@ const UserDashRestaurants = () => {
           Top Restaurants to Explore
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {RestaurantData.map((restaurant) => (
+          {restaurants.map((restaurant) => (
             <div
-              key={restaurant.id}
+              key={restaurant._id}
               className="group relative bg-card rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden  cursor-pointer shadow-lg"
             >
               {/* Image Container */}
               <div className="relative overflow-hidden rounded-t-2xl">
                 <img
-                  src={restaurant.image}
-                  alt={restaurant.name}
+                  src={restaurant.featuredDish?.image}
+                  alt={restaurant.featuredDish?.name || restaurant.name}
                   className="h-48 w-full object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110"
                 />
               </div>
@@ -93,7 +110,7 @@ const UserDashRestaurants = () => {
               </div>
               <div className="absolute flex items-center justify-between pt-2 top-2 left-3">
                 <span className="text-[0.9rem] text-white font-bold">
-                  at {restaurant.priceForTwo}
+                  at {restaurant.featuredDish?.price}
                 </span>
                 {/* <span className="text-lg font-bold text-foreground">
               ₹{discountedPrice}
@@ -104,7 +121,7 @@ const UserDashRestaurants = () => {
                 <div className="bg-white/95 backdrop-blur-sm px-2 py-[0.1rem] rounded-sm flex items-center gap-1">
                   <FiClock className="w-3 h-3 text-gray-700" />
                   <span className="text-[0.8rem] text-gray-700 font-bold">
-                    {restaurant.deliveryTime}
+                    {restaurant.deliveryTimeEstimate}
                   </span>
                 </div>
               </div>
@@ -119,7 +136,7 @@ const UserDashRestaurants = () => {
                   {/* <FiClock className="w-3 h-3 text-gray-700" /> */}
                   <MdSpeed className="h-3 w-3 text-gray-700" />
                   <span className="text-[0.8rem] text-gray-700 font-bold">
-                    {restaurant.distance}
+                    {restaurant.distance || "3.5km"}
                   </span>
                 </div>
               </div>
@@ -137,7 +154,7 @@ const UserDashRestaurants = () => {
                     </h3>
                     <div className="flex bg-[#00c569] rounded-lg px-1 items-center">
                       <p className="text-sm text-muted-foreground text-white font-bold">
-                        {restaurant.rating}
+                        {restaurant.rating || "3.0"}
                       </p>
                       <MdStar className="h-3 w-3 text-white ml-1" />
                     </div>
@@ -146,17 +163,18 @@ const UserDashRestaurants = () => {
                 <div className="flex items-center text-[#6e6e6e]">
                   <MdLocationOn className="h-4 w-4" />
                   <div className="text-[0.9rem] font-semibold">
-                    {restaurant.location}
+                    {restaurant.address.street}
                   </div>
                 </div>
 
                 <div className="flex items-center text-[#6e6e6e] ml-1">
                   <div className="text-[0.9rem] font-semibold">
-                    {restaurant.dishName}
+                    {restaurant.name}
                   </div>
                   <div className="text-[0.9rem] font-semibold truncate ml-2">
                     <span className="mx-1 text-sm">•</span>
-                    {restaurant.tags}
+                    {restaurant.featuredDish?.name} ,{" "}
+                    {restaurant.featuredDish?.category}
                   </div>
                 </div>
               </div>
