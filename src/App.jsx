@@ -32,6 +32,8 @@ import AddressCard from "./components/user/userAddress/AddressCard";
 import MapModalPage from "./components/user/userAddress/MapModalPage";
 import CurrentLocationMapModal from "./components/user/userAddress/CurrentLocationMapModal";
 
+import UserDashRestaurantPage from "./components/user/userDash/UserDashRestaurantPage";
+
 function App() {
   return (
     <BrowserRouter>
@@ -93,6 +95,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/restaurant/:id" element={<UserDashRestaurantPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -16,8 +16,10 @@ import { FiHeart } from "react-icons/fi"; // Feather Outline Heart
 import { FiBookmark } from "react-icons/fi";
 import { FiClock } from "react-icons/fi";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserDashRestaurants = () => {
+  const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState([]);
   const [isBookMark, setIsBookMark] = useState({});
   const [isFavorited, setIsFavorited] = useState({});
@@ -63,6 +65,7 @@ const UserDashRestaurants = () => {
             <div
               key={restaurant._id}
               className="group relative bg-card rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden  cursor-pointer shadow-lg"
+              onClick={() => navigate(`/restaurant/${restaurant._id}`)}
             >
               {/* Image Container */}
               <div className="relative overflow-hidden rounded-t-2xl">
@@ -82,11 +85,11 @@ const UserDashRestaurants = () => {
                   size="sm"
                   variant="ghost"
                   className="w-8 h-8 p-0 bg-white rounded-full cursor-pointer"
-                  onClick={() => handleBookMarkClick(restaurant.id)}
+                  onClick={() => handleBookMarkClick(restaurant._id)}
                 >
                   <FiBookmark
                     className={`mx-auto h-4 w-4 ${
-                      isBookMark[restaurant.id]
+                      isBookMark[restaurant._id]
                         ? "fill-green-500 text-gray-500 "
                         : "text-gray-500"
                     }`}
@@ -97,11 +100,11 @@ const UserDashRestaurants = () => {
                   size="sm"
                   // variant="ghost"
                   className="w-8 h-8 p-0 bg-white rounded-full cursor-pointer"
-                  onClick={() => handleFavoriteClick(restaurant.id)}
+                  onClick={() => handleFavoriteClick(restaurant._id)}
                 >
                   <FiHeart
                     className={`mx-auto h-4 w-4 ${
-                      isFavorited[restaurant.id]
+                      isFavorited[restaurant._id]
                         ? "fill-pink-500 text-gray-500"
                         : "text-gray-500"
                     }`}
@@ -167,13 +170,12 @@ const UserDashRestaurants = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center text-[#6e6e6e] ml-1">
+                <div className="flex items-center justify-between text-[#6e6e6e] ml-1">
                   <div className="text-[0.9rem] font-semibold">
-                    {restaurant.name}
+                    {restaurant.featuredDish?.name}
                   </div>
                   <div className="text-[0.9rem] font-semibold truncate ml-2">
                     <span className="mx-1 text-sm">•</span>
-                    {restaurant.featuredDish?.name} ,{" "}
                     {restaurant.featuredDish?.category}
                   </div>
                 </div>
