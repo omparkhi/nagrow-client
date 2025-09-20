@@ -39,7 +39,7 @@ const AdminDash = () => {
             <Users size={20} /> Manage Users
           </Link>
           <Link
-            to="/admin/restaurants"
+            to="/admin/restaurants-docs"
             className="flex items-center gap-2 text-gray-700 hover:text-blue-600"
           >
             <FileText size={20} /> Restaurant Docs

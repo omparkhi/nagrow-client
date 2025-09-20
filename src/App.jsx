@@ -33,6 +33,9 @@ import MapModalPage from "./components/user/userAddress/MapModalPage";
 import CurrentLocationMapModal from "./components/user/userAddress/CurrentLocationMapModal";
 
 import UserDashRestaurantPage from "./components/user/userDash/UserDashRestaurantPage";
+import AdminRestaurants from "./components/admin/AdminRestaurants";
+import AdminVerifiedRestaurants from "./components/admin/AdminVerifiedRestaurants";
+import AdminRestaurantDocs from "./components/admin/AdminRestaurantDocs";
 
 function App() {
   return (
@@ -97,6 +100,15 @@ function App() {
         />
 
         <Route path="/restaurant/:id" element={<UserDashRestaurantPage />} />
+        <Route path="/admin/restaurants-docs" element={<AdminRestaurantDocs/>}/>
+        
+        <Route path="/admin/restaurants" element={<AdminRestaurants/>}/>
+        <Route path="/admin/restaurants/verified-docs" element={<AdminVerifiedRestaurants/>}/>
+
+
+
+        
+        
       </Routes>
     </BrowserRouter>
   );
