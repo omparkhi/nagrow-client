@@ -44,6 +44,13 @@ const AdminDash = () => {
           >
             <FileText size={20} /> Restaurant Docs
           </Link>
+
+          <Link
+            to="/admin/riders-docs"
+            className="flex items-center gap-2 text-gray-700 hover:text-blue-600"
+          >
+            <FileText size={20} /> Rider Docs
+          </Link>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 text-red-500 mt-4 hover:text-red-700"

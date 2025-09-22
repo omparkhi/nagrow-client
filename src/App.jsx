@@ -33,9 +33,13 @@ import MapModalPage from "./components/user/userAddress/MapModalPage";
 import CurrentLocationMapModal from "./components/user/userAddress/CurrentLocationMapModal";
 
 import UserDashRestaurantPage from "./components/user/userDash/UserDashRestaurantPage";
-import AdminRestaurants from "./components/admin/AdminRestaurants";
+import AdminUnverifiedRestaurants from "./components/admin/AdminUnverifiedRestaurants";
 import AdminVerifiedRestaurants from "./components/admin/AdminVerifiedRestaurants";
 import AdminRestaurantDocs from "./components/admin/AdminRestaurantDocs";
+import AdminRiderDocs from "./components/admin/AdminRiderDocs";
+import AdminUnverifiedRiders from "./components/admin/AdminUnverifiedRiders";
+import RiderDocVerification from "./components/rider/RiderDocVerification";
+import AdminVerifiedRiders from "./components/admin/AdminVerifiedRiders";
 
 function App() {
   return (
@@ -53,6 +57,7 @@ function App() {
         <Route path="/rider-signup" element={<RiderSignUp />} />
         <Route path="/rider-login" element={<RiderLogin />} />
         <Route path="/restaurant-verify" element={<DocumentVerification />} />
+        <Route path="/rider-verify" element={<RiderDocVerification />} />
         <Route path="/admin-signup" element={<AdminSignup />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/address-page" element={<AddressCard />} />
@@ -98,12 +103,20 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route path="/restaurant/:id" element={<UserDashRestaurantPage />} />
+
+      {/* Restaurants-docs */}
         <Route path="/admin/restaurants-docs" element={<AdminRestaurantDocs/>}/>
         
-        <Route path="/admin/restaurants" element={<AdminRestaurants/>}/>
+        <Route path="/admin/restaurants/unverified-docs" element={<AdminUnverifiedRestaurants/>}/>
         <Route path="/admin/restaurants/verified-docs" element={<AdminVerifiedRestaurants/>}/>
+
+
+      {/* Riders-docs */}
+      <Route path="/admin/riders-docs" element={<AdminRiderDocs/>}/>
+        
+      <Route path="/admin/riders/unverified-docs" element={<AdminUnverifiedRiders/>}/>
+      <Route path="/admin/riders/verified-docs" element={<AdminVerifiedRiders/>}/>
 
 
 
