@@ -4,6 +4,7 @@ import axios from "axios";
 import Restaurant from "../../../assets/restaurant.jpg";
 import {MdLocationOn, MdStar, MdArrowBack, MdSearch} from "react-icons/md";
 import { FiClock } from "react-icons/fi";
+import { useCart } from "../../context/CartContext";
 
 const UserDashRestaurantPage = () => {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ const UserDashRestaurantPage = () => {
   const [restaurant, setRestaurant] = useState(null);
   const [menu, setMenu] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const { items: cartItems, addToCart, increment, decrement, getTotalItems, clearCart } = useCart();
 
   useEffect(() => {
     const fetchRestaurantDetails = async () => {
@@ -39,6 +42,27 @@ const UserDashRestaurantPage = () => {
       navigate("/user-home");
     }
   };
+
+  const onAddClick = async (menuItem) => {
+    // Try add; addToCart returns { success, conflict }
+    const result = addToCart(menuItem, { _id: restaurant._id, name: restaurant.name });
+    if(result.success) return;
+    if(result.conflict) {
+      const ok = window.confirm(`Your cart has items from "${result.currentRestaurant}". Clear cart and add this item?`);
+
+      if (ok) {
+        clearCart();
+        addToCart(menuItem, { _id: restaurant._id, name: restaurant.name });
+      }
+    }
+  };
+
+  // helper to read quantity in cart for a menu item
+  const getQuantity = (itemId) => {
+    const it = cartItems.find((c) => c.id === itemId);
+    return it ? it.quantity : 0;
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen text-lg font-semibold">
@@ -77,11 +101,11 @@ const UserDashRestaurantPage = () => {
             <MdStar className="h-3 w-3 text-white ml-1" />
           </div>
           </div>
-          <div className="flex gap-2 text-sm text-gray-700 font-bold">
+          <div className="flex gap-2 text-sm text-gray-700 font-bold">  
             <div className="flex items-center">
               <FiClock className="w-4 h-4" />
               <span className="ml-1 ">
-                {restaurant.deliveryTimeEstimate}
+                {restaurant.deliveryTimeEstimate} 
               </span>
             </div> | 
               <div className="flex items-center">
@@ -116,7 +140,10 @@ const UserDashRestaurantPage = () => {
           <div key={category} className="mb-10">
             <h3 className="text-xl font-bold mb-4">{category}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {menu[category].map((item) => (
+              {menu[category].map((item) => {
+                const qty = getQuantity(item._id);
+                
+                return (
                 <div 
                   key={item._id}
                   className="flex items-center gap-4 p-4 border rounded-lg shadow-sm hover:shadow-md transition"
@@ -133,11 +160,25 @@ const UserDashRestaurantPage = () => {
                     <p className="text-sm text-gray-600">{item.description}</p>
                     <p className="font-bold mt-2">₹{item.price}</p>
                   </div>
-                  <button className="px-3 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600">
+
+                  {/* Add / qty controls */}
+                  {qty === 0 ? (
+                     <button 
+                     onClick={() => onAddClick(item)}
+                     className="px-3 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600">
                     Add +
                   </button>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                          <button onClick={() => decrement(item._id)} className="w-8 h-8 rounded bg-gray-200">−</button>
+                          <div>{qty}</div>
+                          <button onClick={() => increment(item._id)} className="w-8 h-8 rounded bg-gray-200">+</button>
+                        </div>
+                  )}
+                 
                 </div>
-              ))}
+              );
+            })}
             </div>
           </div>
         ))}

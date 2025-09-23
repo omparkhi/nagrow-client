@@ -40,11 +40,14 @@ import AdminRiderDocs from "./components/admin/AdminRiderDocs";
 import AdminUnverifiedRiders from "./components/admin/AdminUnverifiedRiders";
 import RiderDocVerification from "./components/rider/RiderDocVerification";
 import AdminVerifiedRiders from "./components/admin/AdminVerifiedRiders";
+import CartSummaryBar from "./components/user/cart/CartSummaryBar";
+import CartPage from "./components/user/cart/CartPage";
 
 function App() {
   return (
     <BrowserRouter>
       <ToastContainer />
+      <CartSummaryBar />
       <Routes>
         <Route path="/" element={<HomeRedirector />} />
         <Route path="/customer-options" element={<UserRoleOptions />} />
@@ -120,7 +123,15 @@ function App() {
 
 
 
-        
+        {/* user cart page  */}
+         <Route
+          path="/user-cart"
+          element={
+            <ProtectedRoute>
+              <CartPage />
+            </ProtectedRoute>
+          }
+        />
         
       </Routes>
     </BrowserRouter>
