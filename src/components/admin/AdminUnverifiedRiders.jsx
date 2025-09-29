@@ -161,29 +161,33 @@ const AdminUnverifiedRiders = () => {
               </div>
 
               {/* Approve / Reject */}
-              <div className="mt-6 flex gap-2 items-center">
-                <button
-                  onClick={() => handleVerification(rider._id, "approve")}
-                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-                >
-                  Approve
-                </button>
-                <input
-                  type="text"
-                  placeholder="Rejection Reason"
-                  value={reasons[rider._id] || ""}
-                  onChange={(e) =>
-                    setReasons({ ...reasons, [rider._id]: e.target.value })
-                  }
-                  className="border rounded px-2 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-red-400"
-                />
-                <button
-                  onClick={() => handleVerification(rider._id, "reject")}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-                >
-                  Reject
-                </button>
-              </div>
+              <div className="mt-6 flex flex-wrap gap-2">
+  <button
+    onClick={() => handleVerification(rider._id, "approve")}
+    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition flex-shrink-0 w-full sm:w-auto"
+  >
+    Approve
+  </button>
+
+  <input
+    type="text"
+    placeholder="Rejection Reason"
+    value={reasons[rider._id] || ""}
+    onChange={(e) =>
+      setReasons({ ...reasons, [rider._id]: e.target.value })
+    }
+    className="border rounded px-2 py-2 flex-1 min-w-[120px] focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
+  />
+
+  <button
+    onClick={() => handleVerification(rider._id, "reject")}
+    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition flex-shrink-0 w-full sm:w-auto"
+  >
+    Reject
+  </button>
+</div>
+
+              
             </div>
           ))}
         </div>
