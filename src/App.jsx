@@ -108,31 +108,42 @@ function App() {
         />
         <Route path="/restaurant/:id" element={<UserDashRestaurantPage />} />
 
-      {/* Restaurants-docs */}
-        <Route path="/admin/restaurants-docs" element={<AdminRestaurantDocs/>}/>
-        
-        <Route path="/admin/restaurants/unverified-docs" element={<AdminUnverifiedRestaurants/>}/>
-        <Route path="/admin/restaurants/verified-docs" element={<AdminVerifiedRestaurants/>}/>
+        {/* Restaurants-docs */}
+        <Route
+          path="/admin/restaurants-docs"
+          element={<AdminRestaurantDocs />}
+        />
 
+        <Route
+          path="/admin/restaurants/unverified-docs"
+          element={<AdminUnverifiedRestaurants />}
+        />
+        <Route
+          path="/admin/restaurants/verified-docs"
+          element={<AdminVerifiedRestaurants />}
+        />
 
-      {/* Riders-docs */}
-      <Route path="/admin/riders-docs" element={<AdminRiderDocs/>}/>
-        
-      <Route path="/admin/riders/unverified-docs" element={<AdminUnverifiedRiders/>}/>
-      <Route path="/admin/riders/verified-docs" element={<AdminVerifiedRiders/>}/>
+        {/* Riders-docs */}
+        <Route path="/admin/riders-docs" element={<AdminRiderDocs />} />
 
-
+        <Route
+          path="/admin/riders/unverified-docs"
+          element={<AdminUnverifiedRiders />}
+        />
+        <Route
+          path="/admin/riders/verified-docs"
+          element={<AdminVerifiedRiders />}
+        />
 
         {/* user cart page  */}
-         <Route
-          path="/user-cart"
+        <Route
+          path="/cart/:id"
           element={
             <ProtectedRoute>
               <CartPage />
             </ProtectedRoute>
           }
         />
-        
       </Routes>
     </BrowserRouter>
   );

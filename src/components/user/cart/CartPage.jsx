@@ -1,64 +1,312 @@
-import React from 'react'
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import RestaurantHeader from "../userDash/RestaurantHeader";
+import {
+  MdCheckCircle,
+  MdRadioButtonUnchecked,
+  MdEdit,
+  MdLocalOffer,
+  MdReceiptLong,
+  MdReceipt,
+  MdKeyboardArrowRight,
+} from "react-icons/md";
+import { AiOutlineEdit } from "react-icons/ai";
+import { BsCircleFill } from "react-icons/bs";
+import OfferCard from "./OfferCard";
+import { TicketPercent } from "lucide-react";
+import { RiCoupon3Line, RiBillLine } from "react-icons/ri";
+import { FaTicketAlt, FaFileInvoice, FaMoneyBillWave } from "react-icons/fa";
+import { SiPhonepe } from "react-icons/si";
+import { useAddress } from "../../context/AddressContext";
+import AddressSelection from "./AddressSelection";
 
 const CartPage = () => {
-    const { items, restaurantName, increment, decrement, removeItem, clearCart, getSubtotal } = useCart();
-    const navigate = useNavigate();
+  const {
+    items,
+    restaurantName,
+    restaurantId,
+    increment,
+    decrement,
+    removeItem,
+    clearCart,
+    getSubtotal,
+    setTip,
+    getDeliveryFee,
+    getGrandTotal,
+  } = useCart();
+  const navigate = useNavigate();
+  const { addresses, loading, error } = useAddress();
 
-    const handleCheckout = () => {
-        // proceed to checkout flow (address selection, payment)
-        // placeholder: navigate('/checkout')
-        alert("Proceed to checkout (not implemented yet)");
-    }
+  const handleCheckout = () => {
+    // proceed to checkout flow (address selection, payment)
+    // placeholder: navigate('/checkout')
+    alert("Proceed to checkout (not implemented yet)");
+  };
 
-    if(!items || items.length === 0) {
-        return (
-            <div className="max-w-4xl mx-auto p-6 text-center">
-                <h2 className="text-xl font-semibold mb-4">Your cart is empty</h2>
-                <button className="px-4 py-2 bg-green-600 text-white rounded" onClick={() => navigate(-1)}>
-                Back to restaurant
-                </button>
-            </div>
-        );
-    }
+  if (!items || items.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 text-center">
+        <h2 className="text-xl font-semibold mb-4">Your cart is empty</h2>
+        <button
+          className="px-4 py-2 bg-green-600 text-white rounded"
+          onClick={() => navigate(-1)}
+        >
+          Back to restaurant
+        </button>
+      </div>
+    );
+  }
 
+  const handleAddItem = () => {
+    navigate(`/restaurant/${restaurantId}`);
+  };
+
+  // static distance for calculate total
+  const distanceKm = 2;
+
+  const [billCard, setBillCard] = useState(false);
+
+  if (loading) return <p>loading Address..</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
+  const defaultAddress = addresses.length > 0 ? addresses[0] : null;
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Cart — {restaurantName}</h2>
-        <div>
-          <button className="text-sm text-red-600" onClick={() => { if (confirm("Clear cart?")) clearCart(); }}>
-            Clear cart
-          </button>
-        </div>
-      </div>
+    <section className="bg-[#dbdbdb]">
+      <>
+        <RestaurantHeader />
+      </>
+      <div className="min-h-[150vh] w-full bg-[#dbdbdb] px-2">
+        <div className="w-full sm:w-xl md:w-2xl mx-auto px-1 py-3 bg-white rounded-xl mt-3">
+          {/* <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold">Cart — {restaurantName}</h2>
+            <div>
+              <button
+                className="text-sm text-red-600"
+                onClick={() => {
+                  if (confirm("Clear cart?")) clearCart();
+                }}
+              >
+                Clear cart
+              </button>
+            </div>
+          </div> */}
 
-      <div className="space-y-4">
-        {items.map((it) => (
-          <div key={it.id} className="flex items-center gap-4 border p-4 rounded-lg">
-            {it.image && <img src={it.image} alt={it.name} className="w-20 h-20 object-cover rounded" />}
-            <div className="flex-1">
-              <div className="font-semibold">{it.name}</div>
-              <div className="text-sm text-gray-600">₹{it.price}</div>
+          <div className="space-y-6">
+            {items.map((it) => (
+              <div
+                key={it.id}
+                className="flex items-center justify-between gap-2 px-4 rounded-lg"
+              >
+                {it.image && (
+                  <>
+                    <BsCircleFill
+                      className="p-[0.1rem] border-1 border-green-700 rounded-sm text-green-700"
+                      size={12}
+                    />
+                    <img
+                      src={it.image}
+                      alt={it.name}
+                      className="w-7 h-7 object-cover rounded"
+                    />
+                  </>
+                )}
+                <div className="flex-1">
+                  <div className="font-semibold text-gray-800">{it.name}</div>
+                  {/* <div className="text-sm text-gray-600">₹{it.price}</div> */}
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center rounded-lg border-1 border-gray-300  shadow-lg bg-white gap-1 text-blue-500 py-[3px] px-1 font-bold">
+                    <button
+                      onClick={() => decrement(it.id)}
+                      className="w-2 h-2 font-bold flex items-center justify-center text-green-600"
+                    >
+                      −
+                    </button>
+                    <div className="text-gray-700 px-1 text-xs">
+                      {it.quantity}
+                    </div>
+                    <button
+                      onClick={() => increment(it.id)}
+                      className="w-2 h-2 font-bold flex items-center justify-center text-green-600"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="text-[14px] text-gray-800">
+                    &#8377;{it.price * it.quantity}
+                  </div>
+                </div>
+
+                {/* <button
+                  onClick={() => removeItem(it.id)}
+                  className="text-red-600 ml-4"
+                >
+                  Remove
+                </button> */}
+              </div>
+            ))}
+
+            <div className="flex px-4 text-gray-700 font-semibold gap-3">
+              <div
+                className="text-[13px] sm:text-[15px] py-1 px-1 border-1 border-gray-400 rounded-md  cursor-pointer"
+                onClick={handleAddItem}
+              >
+                + Add Items
+              </div>
+              <div className=" flex items-center text-[13px] sm:text-[15px] py-1 px-1 border-1 border-gray-400 rounded-md  cursor-pointer">
+                <AiOutlineEdit className="w-4 h-4 " /> Cooking requests
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <button onClick={() => decrement(it.id)} className="w-8 h-8 rounded bg-gray-200">−</button>
-              <div className="px-3">{it.quantity}</div>
-              <button onClick={() => increment(it.id)} className="w-8 h-8 rounded bg-gray-200">+</button>
-            </div>
-            <div className="w-24 text-right font-semibold">₹{it.price * it.quantity}</div>
-            <button onClick={() => removeItem(it.id)} className="text-red-600 ml-4">Remove</button>
           </div>
-        ))}
-      </div>
 
-      <div className="mt-6 flex justify-end items-center gap-6">
-        <div className="text-lg font-semibold">Subtotal: ₹{getSubtotal()}</div>
-        <button onClick={handleCheckout} className="px-4 py-2 bg-green-600 text-white rounded">Proceed to Checkout</button>
-      </div>
-    </div>
-  )
-}
+          {/* <div className="mt-6 flex justify-end items-center gap-6">
+            <div className="text-lg font-semibold">
+              Subtotal: ₹{getSubtotal()}
+            </div>
+            <button
+              onClick={handleCheckout}
+              className="px-4 py-2 bg-green-600 text-white rounded"
+            >
+              Proceed to Checkout
+            </button>
+          </div> */}
+        </div>
+        <div className="w-full sm:w-xl md:w-2xl mx-auto px-4 pt-3 pb-6 bg-white rounded-xl mt-3">
+          <p className="text-[13px] font-bold text-gray-500">SAVINGS CORNER</p>
+          {/* <div className="w-5 h-5 bg-orange-500">
+            <MdLocalOffer className="p-1 bg-white" />
+          </div> */}
+          <div className="flex">
+            <div className="relative bg-orange-600 p-1 rounded-sm inline-flex items-center justify-center mt-2">
+              <MdLocalOffer className="text-white text-sm" />
+            </div>
+            <div className=" w-full flex items-center justify-between">
+              <p className="text-sm font-semibold text-black ml-4 mt-2">
+                Save &#8377;49 on this order
+              </p>
+              <div className="absolute flex items-center mt-10 ml-4">
+                <p className=" text-[13px] text-gray-500 ">View all coupons</p>
+                <MdKeyboardArrowRight className=" text-[16px] text-gray-500 " />
+              </div>
+              <div className="text-[13px] sm:text-[15px] px-1 border-1 border-orange-600 text-orange-600 font-bold rounded-md  cursor-pointer">
+                Apply
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full sm:w-xl md:w-2xl mx-auto px-4 pt-3 pb-6 bg-white rounded-xl mt-3">
+          <div className="flex ">
+            <div className="bg-green-600 p-1 rounded-sm inline-flex items-center justify-center">
+              <RiBillLine style={{ fill: "white", fontSize: "15px" }} />
+            </div>
+            {/* <div>Delivery Fee (₹12/km): ₹{getDeliveryFee(distanceKm)}</div> */}
+            <div className="ml-4  w-full flex items-center justify-between">
+              <p className="text-sm font-bold text-[#121212] ">
+                To Pay &#8377;{getGrandTotal(distanceKm)}
+              </p>
+              <p className="absolute text-[13px] font-semibold text-gray-500 mt-8">
+                incl. all taxes & charges
+              </p>
 
-export default CartPage
+              <MdKeyboardArrowRight
+                onClick={() => setBillCard((prev) => !prev)}
+                className={`text-xl font-bold cursor-pointer transition-transform duration-500 ${
+                  billCard ? "rotate-270" : "rotate-90"
+                }`}
+              />
+            </div>
+          </div>
+          {billCard && (
+            <div
+              className={`transition-transform duration-1000 overflow-hidden ${
+                billCard ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+              } border-t border-gray-500 mt-6`}
+            >
+              <div>
+                <div className="flex items-center justify-between text-[13px] sm:text-[15px] pt-3 px-1 text-gray-700 font-semibold">
+                  <p>Item Total</p>
+                  <p>&#8377;{getSubtotal()}</p>
+                </div>
+                <div className="flex items-center justify-between text-[13px] sm:text-[15px] pt-1 px-1 text-gray-700 font-semibold">
+                  <p>Delivery Fee | {distanceKm} kms</p>
+                  <p>&#8377;{getDeliveryFee(distanceKm)}.00</p>
+                </div>
+              </div>
+
+              <div className="border-t border-dotted border-gray-500 mt-3">
+                <div className="flex items-center justify-between text-[13px] sm:text-[15px] pt-3 px-1 text-gray-700 font-semibold">
+                  <p>Delivery Tip</p>
+                  <p className="text-orange-600">Add tip</p>
+                </div>
+                <div className="flex items-center justify-between text-[13px] sm:text-[15px] pt-1 px-1 text-gray-700 font-semibold">
+                  <p>GST & Other Charges</p>
+                  <p>&#8377;00.00</p>
+                </div>
+              </div>
+              <div className="border-t border-dotted border-gray-500 mt-3">
+                <div className="flex items-center justify-between text-[13px] sm:text-[15px] pt-3 px-1 text-slate-800 font-semibold">
+                  <p>To Pay</p>
+                  <p>&#8377;{getGrandTotal(distanceKm)}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Payment option */}
+        <div className="w-full sm:w-xl md:w-2xl mx-auto px-4 pt-3 pb-4 bg-white rounded-xl mt-3">
+          <p className="text-[13px] font-bold text-gray-500">
+            SELECT PAYMENT OPTIONS
+          </p>
+          <div className="flex mt-2">
+            <div className=" p-1 rounded-sm inline-flex items-center justify-center">
+              {/* <RiBillLine style={{ fill: "white", fontSize: "15px" }} /> */}
+              <SiPhonepe className="text-purple-600 text-2xl" />
+            </div>
+            {/* <div>Delivery Fee (₹12/km): ₹{getDeliveryFee(distanceKm)}</div> */}
+            <div className="ml-4  w-full flex items-center justify-between">
+              <p className="text-sm font-bold text-[#121212] ">PhonePe</p>
+              <div className="absolute flex items-center mt-8">
+                <p className=" text-[13px] text-gray-500 ">
+                  Select another payment{" "}
+                </p>
+                <MdKeyboardArrowRight className=" text-[16px] text-gray-500 " />
+              </div>
+
+              <input
+                type="radio"
+                name="payment"
+                checked
+                className="text-green-500 w-3 h-3"
+              />
+            </div>
+          </div>
+
+          <div className="flex mt-4 border-t border-gray-500">
+            <div className="p-1 rounded-sm inline-flex items-center justify-center mt-2">
+              <FaMoneyBillWave className="text-green-600 text-2xl" />
+            </div>
+            {/* <div>Delivery Fee (₹12/km): ₹{getDeliveryFee(distanceKm)}</div> */}
+            <div className="ml-4  w-full flex items-center justify-between mt-2">
+              <p className="text-sm font-bold text-[#121212] ">
+                Cash on Delivery
+              </p>
+              <input
+                type="radio"
+                name="payment"
+                checked
+                className="text-green-500 w-3 h-3"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* select address */}
+        <AddressSelection />
+      </div>
+    </section>
+  );
+};
+
+export default CartPage;

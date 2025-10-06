@@ -8,6 +8,7 @@ const initialState = {
   restaurantId: null,
   restaurantName: null,
   items: [], // { id, name, price, image, quantity }
+  tip: 0,
 };
 
 function reducer(state, action) {
@@ -27,7 +28,9 @@ function reducer(state, action) {
         return {
           ...state,
           items: state.items.map((i) =>
-            i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
+            i.id === item.id
+              ? { ...i, quantity: i.quantity + item.quantity }
+              : i
           ),
         };
       }
@@ -52,16 +55,31 @@ function reducer(state, action) {
       };
     }
     case "REMOVE_ITEM":
-      return { ...state, items: state.items.filter((i) => i.id !== action.payload) };
+      return {
+        ...state,
+        items: state.items.filter((i) => i.id !== action.payload),
+      };
     case "CLEAR_CART":
       return { restaurantId: null, restaurantName: null, items: [] };
+    case "SET_TIP": // NEW case
+      return { ...state, tip: action.payload };
     default:
       return state;
   }
 }
 
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  function init(initialState) {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : initialState;
+    } catch (error) {
+      console.error("Failed to load cart from localStorage", error);
+      return initialState;
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState, init);
 
   // init from localStorage
   useEffect(() => {
@@ -100,19 +118,41 @@ export const CartProvider = ({ children }) => {
     if (!state.restaurantId) {
       dispatch({
         type: "SET_RESTAURANT",
-        payload: { restaurantId: restaurant._id, restaurantName: restaurant.name },
+        payload: {
+          restaurantId: restaurant._id,
+          restaurantName: restaurant.name,
+        },
       });
     }
     return { success: true };
   };
 
-  const increment = (itemId) => dispatch({ type: "INCREMENT", payload: itemId });
-  const decrement = (itemId) => dispatch({ type: "DECREMENT", payload: itemId });
-  const removeItem = (itemId) => dispatch({ type: "REMOVE_ITEM", payload: itemId });
+  const increment = (itemId) =>
+    dispatch({ type: "INCREMENT", payload: itemId });
+  const decrement = (itemId) =>
+    dispatch({ type: "DECREMENT", payload: itemId });
+  const removeItem = (itemId) =>
+    dispatch({ type: "REMOVE_ITEM", payload: itemId });
   const clearCart = () => dispatch({ type: "CLEAR_CART" });
 
   const getTotalItems = () => state.items.reduce((s, i) => s + i.quantity, 0);
-  const getSubtotal = () => state.items.reduce((s, i) => s + i.price * i.quantity, 0);
+  const getSubtotal = () =>
+    state.items.reduce((s, i) => s + i.price * i.quantity, 0);
+
+  //Add tip
+  const setTip = (amount) => dispatch({ type: "SET_TIP", payload: amount });
+
+  // Delivery fee = ₹12 per km
+  const getDeliveryFee = (distanceKm) => Math.ceil(distanceKm * 12);
+
+  // Grand total = Subtotal + Delivery Fee + Tip
+  const getGrandTotal = (distanceKm = 0) => {
+    const subtotal = Number(getSubtotal()) || 0;
+    const delivery = Number(getDeliveryFee(distanceKm)) || 0;
+    const tip = Number(state.tip) || 0;
+
+    return subtotal + delivery + tip;
+  };
 
   return (
     <CartContext.Provider
@@ -126,6 +166,9 @@ export const CartProvider = ({ children }) => {
         clearCart,
         getTotalItems,
         getSubtotal,
+        setTip,
+        getDeliveryFee,
+        getGrandTotal,
       }}
     >
       {children}
