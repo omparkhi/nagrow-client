@@ -14,12 +14,13 @@ import {
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsCircleFill } from "react-icons/bs";
 import OfferCard from "./OfferCard";
-import { TicketPercent } from "lucide-react";
+import { Currency, TicketPercent } from "lucide-react";
 import { RiCoupon3Line, RiBillLine } from "react-icons/ri";
 import { FaTicketAlt, FaFileInvoice, FaMoneyBillWave } from "react-icons/fa";
 import { SiPhonepe } from "react-icons/si";
 import { useAddress } from "../../context/AddressContext";
 import AddressSelection from "./AddressSelection";
+import axios from "axios";
 
 const CartPage = () => {
   const {
@@ -37,11 +38,74 @@ const CartPage = () => {
   } = useCart();
   const navigate = useNavigate();
   const { addresses, loading, error } = useAddress();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?._id;
 
-  const handleCheckout = () => {
-    // proceed to checkout flow (address selection, payment)
-    // placeholder: navigate('/checkout')
-    alert("Proceed to checkout (not implemented yet)");
+  const handlePayment = async () => {
+    try {
+      // Prepare cart data to send to backend for secure total calculation
+      const cartData =  {
+        restaurantId,
+        userId,
+        items,
+        setTip,
+        deliveryAddress: "Home, Nagpur",
+        distanceKm, // dynamic distance if you calculate from user & restaurant location
+      };
+
+
+      // 1️⃣ Send cart data to backend to calculate total & create Razorpay order
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/payment/order`,
+        cartData
+      );
+
+      const { order, totalAmount } = data;
+
+      // Initiailize Razorpay Checkout
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: "INR",
+        name: "Nagrow",
+        description: "Food Order Payment",
+        order_id: order.id,
+        handler: async function (response) {
+          // verify payment
+          const verifyRes = await axios.post(`${import.meta.env.VITE_API_URL}/api/payment/verify`,
+            {
+              ...response,
+              orderData: {
+                ...cartData,
+                totalAmount: order.amount / 100, //convert from paise to INR
+              },
+            }
+          );
+
+          if(verifyRes.data.success) {
+            navigate("/payment-success");
+          } else {
+            alert("Payment verification failed");
+          }
+        } ,
+        prefill: {
+          name: "Test User",
+          email: "testuser@gmail.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#8A2BE2",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+
+    } catch (err) {
+      console.log("Payment Error:", err);
+      alert("Something went wrong while processing payment!");
+    }
+
   };
 
   if (!items || items.length === 0) {
@@ -304,6 +368,12 @@ const CartPage = () => {
 
         {/* select address */}
         <AddressSelection />
+        <button
+        onClick={handlePayment}
+        className="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg mt-4"
+      >
+        Pay ₹{getGrandTotal()}
+      </button>
       </div>
     </section>
   );

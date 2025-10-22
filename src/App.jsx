@@ -42,6 +42,7 @@ import RiderDocVerification from "./components/rider/RiderDocVerification";
 import AdminVerifiedRiders from "./components/admin/AdminVerifiedRiders";
 import CartSummaryBar from "./components/user/cart/CartSummaryBar";
 import CartPage from "./components/user/cart/CartPage";
+import PaymentSuccess from "./components/user/cart/PaymentSuccess";
 
 function App() {
   return (
@@ -144,6 +145,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
     </BrowserRouter>
   );
