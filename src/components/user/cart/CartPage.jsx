@@ -82,19 +82,29 @@ const CartPage = () => {
             }
           );
 
+          console.log("Navigate State:", verifyRes.data);
+
           if(verifyRes.data.success) {
-            navigate("/payment-success");
+            clearCart();
+            navigate("/payment-success", {
+              state: {
+                orderId: verifyRes.data.order._id,
+                paymentId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id,
+                totalAmount: order.amount / 100,
+              },
+            });
           } else {
             alert("Payment verification failed");
           }
         } ,
         prefill: {
-          name: "Test User",
-          email: "testuser@gmail.com",
-          contact: "9999999999",
+          name: user?.name,
+          email: user?.email,
+          contact: user?.phone,
         },
         theme: {
-          color: "#8A2BE2",
+          color: "#e2832bff",
         },
       };
 
@@ -372,7 +382,7 @@ const CartPage = () => {
         onClick={handlePayment}
         className="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg mt-4"
       >
-        Pay ₹{getGrandTotal()}
+        Pay ₹{getGrandTotal(distanceKm)}
       </button>
       </div>
     </section>
