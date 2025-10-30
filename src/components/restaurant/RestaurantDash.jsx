@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Home,
   List,
@@ -14,6 +14,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddMenuItemForm from "./AddMenuItemForm";
+import io from "socket.io-client";
+import { useEffect } from "react";
+
+
+
+
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
 
@@ -129,7 +135,34 @@ const MainContent = ({ toggleSidebar, onAddItemClick }) => {
 const RestaurantDash = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  // const socketRef = useRef(null);
   const restaurantId = localStorage.getItem("restaurantId");
+  
+
+  useEffect(() => {
+    if(!restaurantId) return;
+    console.log("Restaurant Id: ", restaurantId);
+
+    const socket = io("http://localhost:3000");
+    socket.emit("joinRoom", { restaurantId });
+    console.log("🔌 Connecting to socket...");
+    socket.on("connect", () => {
+      console.log("✅ Restaurant socket connected:", socket.id);
+    });
+
+    socket.on("newOrder", (data) => {
+      console.log("New Message Arrived: ", data);
+      toast.success(data.message);  
+    });
+
+    socket.on("disconnect", () => {
+      console.log("❌ Socket disconnected");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [restaurantId]);
 
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);

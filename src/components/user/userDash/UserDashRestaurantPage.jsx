@@ -12,24 +12,30 @@ import {
 import { FiClock } from "react-icons/fi";
 import { HiShieldCheck } from "react-icons/hi";
 import { GiKnifeFork } from "react-icons/gi";
-import { useCart } from "../../context/CartContext";
 import RestaurantHeader from "./RestaurantHeader";
+import {
+  addToCartThunk,
+  clearCart,
+  increment,
+  decrement,
+  getCart,
+} from "../../../features/usercart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const UserDashRestaurantPage = () => {
   const navigate = useNavigate();
   const { id } = useParams(); // restaurantId from url
+  const dispatch = useDispatch();
   const [restaurant, setRestaurant] = useState(null);
   const [menu, setMenu] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const {
-    items: cartItems,
-    addToCart,
-    increment,
-    decrement,
-    getTotalItems,
-    clearCart,
-  } = useCart();
+
+  const cart = useSelector(getCart);
+  const cartItems = cart.items || [];
+
+ 
 
   useEffect(() => {
     const fetchRestaurantDetails = async () => {
@@ -59,29 +65,56 @@ const UserDashRestaurantPage = () => {
     }
   };
 
-  const onAddClick = async (menuItem) => {
-    // Try add; addToCart returns { success, conflict }
-    const result = addToCart(menuItem, {
-      _id: restaurant._id,
-      name: restaurant.name,
-    });
-    if (result.success) return;
-    if (result.conflict) {
-      const ok = window.confirm(
-        `Your cart has items from "${result.currentRestaurant}". Clear cart and add this item?`
-      );
+  // const onAddClick = async (menuItem) => {
+  //   // Try add; addToCart returns { success, conflict }
+  //   const result = addToCart(menuItem, {
+  //     _id: restaurant._id,
+  //     name: restaurant.name,
+  //   });
+  //   if (result.success) return;
+  //   if (result.conflict) {
+  //     const ok = window.confirm(
+  //       `Your cart has items from "${result.currentRestaurant}". Clear cart and add this item?`
+  //     );
 
+  //     if (ok) {
+  //       clearCart();
+  //       addToCart(menuItem, { _id: restaurant._id, name: restaurant.name });
+  //     }
+  //   }
+  // };
+
+  const onAddClick = (menuItem) => {
+    const result = dispatch(
+      addToCartThunk(menuItem, {
+        _id: restaurant._id,
+        name: restaurant.name,
+      })
+    );
+
+    // Thunk returns an object, handle conflicts
+    const res = result.payload || result;
+    if (res.success) return;
+    if (res.conflict) {
+      const ok = window.confirm(
+        `Your cart has items from "${res.currentRestaurant}". Clear cart and add this item?`
+      );
       if (ok) {
-        clearCart();
-        addToCart(menuItem, { _id: restaurant._id, name: restaurant.name });
+        dispatch(clearCart());
+        dispatch(
+          addToCartThunk(menuItem, {
+            _id: restaurant._id,
+            name: restaurant.name,
+          })
+        );
       }
     }
   };
 
   // helper to read quantity in cart for a menu item
   const getQuantity = (itemId) => {
-    const it = cartItems.find((c) => c.id === itemId);
-    return it ? it.quantity : 0;
+    const item = cartItems.find((c) => c.id === itemId);
+    return item ? item.quantity : 0;
   };
 
   if (loading) {
@@ -153,14 +186,14 @@ const UserDashRestaurantPage = () => {
                         ) : (
                           <div className="flex items-center justify-center rounded-lg border-1 border-gray-300 shadow-lg bg-white gap-2 text-blue-500 py-[2px] font-bold">
                             <button
-                              onClick={() => decrement(item._id)}
+                              onClick={() => dispatch(decrement(item._id))}
                               className="w-4 h-4 flex items-center justify-center text-blue-500"
                             >
                               −
                             </button>
                             <div>{qty}</div>
                             <button
-                              onClick={() => increment(item._id)}
+                              onClick={() => dispatch(increment(item._id))}
                               className="w-4 h-4 flex items-center justify-center text-blue-500"
                             >
                               +

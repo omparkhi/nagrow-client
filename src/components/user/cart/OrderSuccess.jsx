@@ -1,12 +1,14 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import Success from "../../../assets/success.json";
 
-const PaymentSuccess = () => {
+const OrderSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { orderId, paymentId, razorpayOrderId, totalAmount } = location.state || {};
+  const { orderId, paymentId, razorpayOrderId, totalAmount, paymentStatus } = location.state || {};
   console.log("PaymentSuccess State:", location.state);
   if (!orderId) {
     return (
@@ -29,21 +31,29 @@ const PaymentSuccess = () => {
       <p className="text-gray-700 font-semibold">
           Order ID: <span className="text-black">{orderId}</span>
         </p>
-        <p className="text-gray-700 font-semibold">
+        {/* <p className="text-gray-700 font-semibold">
           Payment ID: <span className="text-black">{paymentId}</span>
         </p>
         <p className="text-gray-700 font-semibold">
           Razorpay Order ID: <span className="text-black">{razorpayOrderId}</span>
-        </p>
+        </p> */}
         <p className="text-lg font-bold mt-4">
           Amount Paid: ₹{totalAmount}
         </p>
 
-      <CheckCircle className="text-green-500 w-16 h-16 mb-4" />
+      {/* <CheckCircle className="text-green-500 w-16 h-16 mb-4" /> */}
+          <Lottie 
+            animationData={Success}
+            loop={true}
+            autoplay={true}
+            style={{ height: 200 }}
+            // speed={0.000001}
+            
+          />
       <h1 className="text-2xl font-semibold">Payment Successful 🎉</h1>
       <p className="text-gray-600 mt-2">Your order has been placed successfully!</p>
     </div>
   );
 };
 
-export default PaymentSuccess;
+export default OrderSuccess;

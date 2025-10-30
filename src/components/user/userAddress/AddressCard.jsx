@@ -108,6 +108,24 @@ const AddressCard = () => {
     }
   };
 
+  const handleSelectAddress = async (addressId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.get(`http://localhost:3000/api/users/get-address?addressId=${addressId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      await fetchAddress(); // refresh after selecting
+      toast.success("Address selected!");
+
+    } catch (err) {
+      console.log("Selection Error:", err);
+      toast.error("Failed to select address");
+    }
+  }
+
   return (
     <section className="min-h-screen w-full bg-gradient-to-b from black to-[#d3d3d3] px-4 py-4">
       <div className="flex w-full text-xl text-[#1c1c1e] gap-2 items-center font-bold">
@@ -151,7 +169,8 @@ const AddressCard = () => {
             {/* Left content: icon + title + address */}
             <div
               key={idx}
-              className="flex flex-wrap items-start bg-white rounded-xl mt-4 p-4"
+              onClick={() => handleSelectAddress(address._id)}
+              className={`flex flex-wrap items-start bg-white rounded-xl mt-4 p-4 ${address.selectedAddress ? "shadow-md" : ""}`}
             >
               <div className="flex items-start flex-1 min-w-0">
                 <div className="flex-shrink-0">
@@ -159,7 +178,10 @@ const AddressCard = () => {
                 </div>
 
                 <div className="ml-4">
-                  <h2 className="text-xl font-semibold">{address.label}</h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-[18px] md:text-xl font-semibold">{address.label}</h2>
+                    <p className={`text-sm font-semibold text-green-700`}>{address.selectedAddress ? "selected" : ""}</p>
+                  </div>
                   <p className="text-[#4a4a4a] text-sm mt-1 line-clamp-2">
                     {address.formattedAddress}
                   </p>

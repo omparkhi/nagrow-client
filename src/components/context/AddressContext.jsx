@@ -7,6 +7,7 @@ export const AddressProvider = ({ children }) => {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const fetchAddress = async () => {
     setLoading(true);
@@ -21,6 +22,9 @@ export const AddressProvider = ({ children }) => {
         }
       );
       if (res.data.success) {
+        const selected = res.data.addresses.find((a) => a.selectedAddress === true);
+        setSelectedAddress(selected || res.data.addresses[0] || null);
+        // console.log(res.data.addresses);
         setAddresses(res.data.addresses);
         setError(null);
       } else {
@@ -40,7 +44,7 @@ export const AddressProvider = ({ children }) => {
 
   return (
     <AddressContext.Provider
-      value={{ addresses, loading, error, fetchAddress }}
+      value={{selectedAddress, addresses, loading, error, fetchAddress }}
     >
       {children}
     </AddressContext.Provider>
