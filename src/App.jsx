@@ -125,7 +125,9 @@ function App() {
         />
 
         {/* Riders-docs */}
-        <Route path="/admin/riders-docs" element={<AdminRiderDocs />} />
+        <Route 
+          path="/admin/riders-docs"
+          element={<AdminRiderDocs />} />
 
         <Route
           path="/admin/riders/unverified-docs"

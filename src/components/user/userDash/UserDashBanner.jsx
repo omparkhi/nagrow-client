@@ -75,6 +75,7 @@ const UserDashBanner = () => {
     navigate("/address-page");
   };
 
+
   return (
     <>
       <div className=" bg-static-stripes h-auto rounded-b-[30px] overflow-hidden">

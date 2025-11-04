@@ -25,6 +25,8 @@ import UserDashCategory from "./UserDashCategory";
 import UserDashRestaurants from "./UserDashRestaurants";
 import UserDashBanner from "./UserDashBanner";
 
+import FilterBar from "./FilterBar";
+
 const UserDash = () => {
   const navigate = useNavigate();
   const [homeAddress, setHomeAddress] = useState(null);
@@ -38,6 +40,12 @@ const UserDash = () => {
 
   const [isShaking, setIsShaking] = useState(false);
 
+   const [filters, setFilters] = useState({
+    rating: 0,
+    veg: false,
+    cuisine: "",
+    deliveryTime: 0,
+  });
   useEffect(() => {
     const interval = setInterval(() => {
       setIsShaking(true);
@@ -108,7 +116,10 @@ const UserDash = () => {
 
       <UserDashCategory />
 
-      <UserDashRestaurants />
+      <div className="px-4 sm:px-8">
+        <FilterBar onFilterChange={setFilters} />
+      </div>
+      <UserDashRestaurants filters={filters} />
     </div>
   );
 };

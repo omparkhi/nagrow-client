@@ -18,11 +18,12 @@ import { FiClock } from "react-icons/fi";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const UserDashRestaurants = () => {
+const UserDashRestaurants = ({ filters = {} }) => {
   const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState([]);
   const [isBookMark, setIsBookMark] = useState({});
   const [isFavorited, setIsFavorited] = useState({});
+  const { rating, veg, nonVeg, cuisines, deliveryTime } = filters;
 
   const handleFavoriteClick = (id) => {
     setIsFavorited((prev) => ({
@@ -52,6 +53,43 @@ const UserDashRestaurants = () => {
     fetchRestaurants();
   }, []);
 
+// Parse delivery time range and return the max value
+const getMaxDeliveryTime = (timeStr) => {
+  if (!timeStr || timeStr.toLowerCase() === "not available") return Infinity;
+  const match = timeStr.match(/(\d+)-?(\d+)?/);
+  if (!match) return Infinity;
+  const min = Number(match[1]);
+  const max = match[2] ? Number(match[2]) : min;
+  return max; // use max value to compare with filter
+};
+
+// Frontend filtering
+const filteredRestaurants = restaurants.filter((r) => {
+  // Rating filter
+  if (rating && Number(r.rating) < rating) return false;
+
+  // Veg / Non-Veg
+  if (veg && !r.isVeg) return false;
+  if (nonVeg && r.isVeg) return false;
+
+  // Cuisine
+  if (cuisines.length > 0 && !cuisines.includes(r.featuredDish?.category)) return false;
+
+  // Delivery Time (Fixed)
+  if (deliveryTime) {
+    const maxTime = getMaxDeliveryTime(r.deliveryTimeEstimate);
+    if (deliveryTime === 45) {
+      if (maxTime < 45) return false;
+    } else {
+      if (maxTime > deliveryTime) return false;
+    }
+  }
+
+  return true;
+});
+
+
+
   return (
     <>
       {/* //RestaurantData */}
@@ -61,7 +99,7 @@ const UserDashRestaurants = () => {
           Top Restaurants to Explore
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {restaurants.map((restaurant) => (
+          {filteredRestaurants.map((restaurant) => (
             <div
               key={restaurant._id}
               className="group relative bg-card rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden  cursor-pointer shadow-lg"
@@ -111,6 +149,9 @@ const UserDashRestaurants = () => {
                   />
                 </button>
               </div>
+
+
+              {/* Info */ }
               <div className="absolute flex items-center justify-between pt-2 top-2 left-3">
                 <span className="text-[0.9rem] text-white font-bold">
                   at {restaurant.featuredDish?.price}
