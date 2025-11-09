@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { CheckCircle } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
-import Success from "../../../assets/success.json";
+import Success from "../../../assets/Success.json";
 
 const OrderSuccess = () => {
   const location = useLocation();
