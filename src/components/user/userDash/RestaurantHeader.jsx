@@ -23,7 +23,7 @@ const RestaurantHeader = () => {
     const fetchRestaurantDetails = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_UR}/api/restaurants/${id}`
+          `${import.meta.env.VITE_API_URL}/api/restaurants/${id}`
         );
         if (data.success) {
           console.log("Restaurant data:", data.restaurant);
