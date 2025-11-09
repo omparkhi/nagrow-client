@@ -8,7 +8,8 @@ const OrderStatusUpdate = () => {
     if(!currentOrder) return null;
 
     const handleStatusChange = (nextStatus) => {
-        if(loading) return;dispatch(updateOrderStatus({ id: currentOrder._id, status: nextStatus }));
+        if(loading) return;
+        dispatch(updateOrderStatus({ id: currentOrder._id, status: nextStatus }));
 
     }
 

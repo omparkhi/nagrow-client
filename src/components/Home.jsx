@@ -24,6 +24,7 @@ const Home = () => {
       title: "Delivery Partner",
       description: "Earn by delivering orders around your city.",
       animation: delivery,
+      link: "/rider-login",
     },
   ];
 

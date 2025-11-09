@@ -43,8 +43,11 @@ export const fetchUserOrderById = createAsyncThunk(
     "order/fetchUserOrderById",
     async(orderId , thunkAPI) => {
         try {
+            console.log("fetchOrder called")
             const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/order/${orderId}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
             });
             return res.data.order;
         } catch (err) {

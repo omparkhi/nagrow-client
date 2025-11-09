@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import MapPicker from "../maps/MapPicker";
 
 const RestaurantSignUp = () => {
   const [showpassword, setShowPassword] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     ownername: "",
@@ -18,6 +20,7 @@ const RestaurantSignUp = () => {
       city: "",
       state: "",
       pincode: "",
+      fullAddress: "",
       location: {
         type: "Point",
         coordinates: [0, 0],
@@ -54,6 +57,22 @@ const RestaurantSignUp = () => {
     }
   };
 
+  const handleLocationSave = ({ address, coordinates }) => {
+    console.log("📍 Location from map:", address, coordinates);
+      setFormData((prev) => ({
+          ...prev,
+          address: {
+            ...prev.address,
+            fullAddress: address,
+            location: {
+              type: "Point",
+              coordinates: [coordinates.lng, coordinates.lat],
+            },
+          },
+      }));
+      setShowMap(false);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -70,6 +89,7 @@ const RestaurantSignUp = () => {
     delete payload.confirmPassword;
 
     try {
+      console.log("🚀 Payload sent to backend:", payload);
       const res = await axios.post(
         "http://localhost:3000/api/restaurants/register",
         payload
@@ -282,6 +302,35 @@ const RestaurantSignUp = () => {
               maxLength={6}
               className="w-full mt-1 px-4 py-2.5 rounded-lg bg-[#f0f5fa] focus:outline-none"
             />
+
+            <div className="flex justify-between items-center mt-3" >
+                <button 
+                  type="button"
+                  onClick={() => setShowMap(true)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                >Pick Location on Map
+                </button>
+
+                {formData.address.fullAddress && (
+                  <p className="text-sm text-gray-600">
+                  Selected: {formData.address.fullAddress}
+                  </p>
+                )}
+            </div>
+
+            {showMap && (
+  <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+    <div className="bg-white w-[90%] max-w-3xl p-4 rounded-lg shadow-lg relative">
+      <h2 className="text-lg font-semibold mb-2">Select Your Restaurant Location</h2>
+      <MapPicker
+        mode="add"
+        onSave={handleLocationSave}
+        onCancel={() => setShowMap(false)}
+      />
+    </div>
+  </div>
+)}
+
 
             <label className="block text-gray-700 mt-4 text-left">
               Cuisine Type

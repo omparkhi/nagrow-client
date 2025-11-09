@@ -21,7 +21,7 @@ const PlaceAutocompleteInput = ({ onPlaceSelect }) => {
         borderRadius: "4px",
         padding: "8px",
         fontSize: "14px",
-        width: "100%",
+        width: "100%",  
       }}
       onplacechanged={(e) => {
         const value = e.target.value;

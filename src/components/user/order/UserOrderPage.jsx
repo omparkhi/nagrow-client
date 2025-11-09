@@ -6,10 +6,12 @@ import { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 import OrderSound from "../../../assets/Notification/order.mp3";
+import DeliveryRouteMap from "../../maps/DeliveryRouteMap";
 
 const UserOrderPage = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
+    // const currentOrderId = localStorage.getItem("currentOrderId");
     const { currentOrder, loading, error } = useSelector((state) => state.orders);
 
     const stageOrderRank = (stage) => {
@@ -29,6 +31,7 @@ const audio = useRef(null);
     useEffect(() => {
         if(!id) return;
         dispatch(fetchUserOrderById(id));
+        
 
         audio.current = new Audio(OrderSound);
 
@@ -45,6 +48,7 @@ const audio = useRef(null);
 
                 toast.info(data.message);
                 dispatch(fetchUserOrderById(id));
+                
             }
         });
 
@@ -55,12 +59,40 @@ const audio = useRef(null);
         }
     }, [id, dispatch]);
 
+    useEffect(() => {
+  if (currentOrder) {
+    console.log("Updated order:", currentOrder);
+  }
+}, [currentOrder]);
+
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-red-500">{error.message}</p>;
     if (!currentOrder) return <p>No order found</p>;
+  
 
     return (
         <div className="max-w-xl mx-auto p-4">
+           <DeliveryRouteMap
+            restaurantLocation={{
+              lat: currentOrder.restaurantId.address.location.coordinates[1],
+              lng: currentOrder.restaurantId.address.location.coordinates[0],
+            }}
+            deliveryLocation={{
+              lat: currentOrder.deliveryAddress.coordinates[1],
+              lng: currentOrder.deliveryAddress.coordinates[0],
+            }}
+            riderLocation={
+              currentOrder.riderId?.location
+                ? {
+                    lat: currentOrder.riderId.location.coordinates[1],
+                    lng: currentOrder.riderId?.location.coordinates[0],
+                  }
+                : null
+            } 
+
+          />
+         
       <h2 className="text-xl font-bold mb-2">Order Details</h2>
 
       <div className="bg-white shadow p-4 rounded-md">
@@ -75,7 +107,7 @@ const audio = useRef(null);
         ))}
 
         <p className="mt-3">Delivery Address:</p>
-        <p className="text-sm">{currentOrder.deliveryAddress}</p>
+        <p className="text-sm">{currentOrder.deliveryAddress.formattedAddress}</p>
 
         <p className="mt-2">Payment: {currentOrder.paymentType} ({currentOrder.paymentStatus})</p>
         <p className="mt-2 font-semibold">Total: ₹{currentOrder.totalAmount}</p>

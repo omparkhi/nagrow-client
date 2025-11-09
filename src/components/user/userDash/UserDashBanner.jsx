@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useAddress } from "../../context/AddressContext";
+import { useAddress } from "../../../context/AddressContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Lottie from "lottie-react";
@@ -124,7 +124,7 @@ const UserDashBanner = () => {
                 Fetching Location...
               </p>
             ) : homeAddress ? (
-              <p className="text-[0.85rem] truncate text-slate-300 max-w-[200px] -mt-1">
+              <p className="text-[0.85rem] truncate text-slate-300 max-w-[200px] md:max-w-[400px] -mt-1">
                 {homeAddress.formattedAddress}
               </p>
             ) : (

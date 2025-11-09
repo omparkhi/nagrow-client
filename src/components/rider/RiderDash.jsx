@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { MapPin, Bike, Clock, DollarSign, Star, LogOut, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import RiderLiveTracker from "./RiderLiveTracker";
+import { io } from "socket.io-client";
+import { toast } from "react-toastify";
+
+const socket = io("http://localhost:3000"); 
 
 const RiderDash = () => {
   const [status, setStatus] = useState("Offline");
@@ -33,6 +38,25 @@ const RiderDash = () => {
     localStorage.removeItem("riderId"); 
     navigate("/rider-login");
   };
+
+
+  useEffect(() => {
+    if(!riderId) return;
+
+    socket.emit("joinRiderRoom", { riderId });
+    console.log(`Joined rider_${riderId}`);
+
+
+    // Listen for new delivery notification
+    socket.on("newDelivery", (data) => {
+      console.log("🚴 New delivery assigned:", data);
+      toast.info(`New Delivery Assigned! Order #${data.orderId}`);
+    });
+
+    return () => {
+      socket.off("newDelivery");
+    };
+  }, [riderId]);
 
   return (
     <section className="min-h-screen bg-[#f5f5f5] text-black p-6">
@@ -104,6 +128,8 @@ const RiderDash = () => {
               ? "You are currently active and visible for delivery assignments."
               : "You are offline. Tap 'Start Shift' to begin receiving orders."}
           </p>
+
+          {status === "Online" ? <RiderLiveTracker riderId={riderId} /> : null}
         </div>
 
         {/* Document Verification Section */}

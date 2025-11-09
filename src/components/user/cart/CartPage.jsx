@@ -21,7 +21,7 @@
   import { BsWallet2 } from "react-icons/bs";
   import { RiSecurePaymentLine } from "react-icons/ri";
   import { SiPhonepe, SiGooglepay, SiPaytm } from "react-icons/si";
-  import { useAddress } from "../../context/AddressContext";
+  import { useAddress } from "../../../context/AddressContext";
   import AddressSelection from "./AddressSelection";
   import axios from "axios";
   import {useDispatch, useSelector} from "react-redux";
@@ -85,7 +85,10 @@
           tip: cart.tip,
           distanceKm: backendTotals.distanceKm,
           deliveryFee: backendTotals.deliveryFee,
-          deliveryAddress: selectedAddress.formattedAddress,
+          deliveryAddress: {
+            formattedAddress: selectedAddress.formattedAddress,
+            coordinates: selectedAddress.coordinates.coordinates,
+          },
         };
 
 
@@ -130,6 +133,7 @@
               dispatch(clearCart());
               navigate("/order-success", {
                 state: {
+                  id: verifyRes.data.order._id,
                   orderId: verifyRes.data.order.orderId,
                   paymentType: "online",
                   paymentId: response.razorpay_payment_id,
@@ -169,7 +173,10 @@
         restaurantId: restaurantId,
         items: items,
         tip: cart.tip,
-        deliveryAddress: selectedAddress.formattedAddress,
+        deliveryAddress: {
+          formattedAddress: selectedAddress.formattedAddress,
+          coordinates: selectedAddress.coordinates.coordinates,
+        },
         distanceKm: backendTotals.distanceKm,
         deliveryFee: backendTotals.deliveryFee,
       });
@@ -179,6 +186,7 @@
         dispatch(clearCart());
         navigate("/order-success", {
           state: {
+            id: codOrder.data.order._id,
             orderId: codOrder.data.order.orderId,
             paymentType: "cod",
             totalAmount: codOrder.data.order.totalAmount,

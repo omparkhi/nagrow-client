@@ -133,6 +133,7 @@ const MainContent = ({ toggleSidebar, onAddItemClick }) => {
 
 
 const RestaurantDash = () => {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showForm, setShowForm] = useState(false);
   // const socketRef = useRef(null);
@@ -153,6 +154,11 @@ const RestaurantDash = () => {
     socket.on("newOrder", (data) => {
       console.log("New Message Arrived: ", data);
       toast.success(data.message);  
+
+      if (data && data.id) {
+        localStorage.setItem("currentOrderId", data.id);
+        console.log("Set currentOrderId:", data.id);
+      }
     });
 
     socket.on("disconnect", () => {
@@ -169,8 +175,10 @@ const RestaurantDash = () => {
 
   return (
     <div className="flex flex-col sm:flex-row relative">
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />  
       <MainContent toggleSidebar={toggleSidebar} onAddItemClick={() => setShowForm(true)} />
+        <button onClick={() => navigate("/get/order")}>Go to Order</button>
 
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

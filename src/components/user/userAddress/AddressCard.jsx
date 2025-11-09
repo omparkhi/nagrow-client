@@ -1,46 +1,32 @@
 import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAddress } from "../../context/AddressContext";
-// import EditAddress from "./EditAddress";
-import {
-  MdEdit,
-  MdDelete,
-  MdLocationOn,
-  MdMap,
-  MdArrowBack,
-  MdSearch,
-} from "react-icons/md";
-import { ArrowLeft } from "lucide-react";
-import {
-  Home,
-  Edit,
-  MapPin,
-  Trash2,
-  LocateFixed,
-  MapPinPlus,
-  MoreVertical,
-} from "lucide-react";
+import { useAddress } from "../../../context/AddressContext";
+import { Edit, MapPin, Trash2, LocateFixed, MapPinPlus, MoreVertical, Home } from "lucide-react";
+import { MdSearch, MdArrowBack } from "react-icons/md";
+
 
 const AddressCard = () => {
   const [showMenuIndex, setShowMenuIndex] = useState(false);
-  const { addresses, loading, fetchAddress } = useAddress();
+  const { addresses, loading, fetchAddresses, selectAddress, deleteAddress, updateAddress } = useAddress();
   const menuRefs = useRef([]);
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [formattedAddress, setFormattedAddress] = useState("");
   const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-  const handleBack = () => {
-    if (window.history.length > 2) {
-      navigate(-1);
-    } else {
-      navigate("/user-home");
+  useEffect(() => {
+    // ensure addresses are loaded (context already loads on mount)
+    if (!addresses || addresses.length === 0) {
+      fetchAddresses();
     }
+  }, [addresses, fetchAddresses]);
+
+  const handleBack = () => {
+    if (window.history.length > 2) navigate(-1);
+    else navigate("/user-home");
   };
 
-  // Close when clicked outside
+  // close menu on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRefs.current.every((ref) => ref && !ref.contains(e.target))) {
@@ -48,83 +34,40 @@ const AddressCard = () => {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // When clicking edit on a specific card
   const handleEditClick = (address) => {
     setSelectedAddressId(address._id);
-    setFormattedAddress(address.formattedAddress);
+    setFormattedAddress(address.formattedAddress || address.fullAddress || "");
     setIsEditing(true);
   };
 
-  //edit adress manually handle save
   const handleSave = async () => {
-    try {
-      const res = await axios.put(
-        `http://localhost:3000/api/users/update-address/${selectedAddressId}`,
-        {
-          formattedAddress,
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      toast.success("Address Updated!");
-      // Refresh the addresses in context
-      await fetchAddress();
-      setIsEditing(false);
-    } catch (error) {
-      console.log(error);
-      toast.error("Error whle updating address");
-    }
+    if (!selectedAddressId) return;
+    // call context updateAddress which will refresh local state
+    await updateAddress(selectedAddressId, { formattedAddress });
+    setIsEditing(false);
   };
 
   const handleEditOnMap = (address) => {
-    navigate("/map", { state: { address } });
+    navigate("/map/view", { 
+      state: {
+        address,
+        addressId: address._id,
+      },
+    });
   };
 
-  // delete address call
   const handleDeleteAddress = async (addressId) => {
-    try {
-      const confirmed = window.confirm("Are you sure you want to delete this address?");
-      if (!confirmed) return;
-       await axios.delete(
-        `http://localhost:3000/api/users/delete-address/${addressId}`,
-        {
-          headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-       );
-       toast.success("Address deleted successfully");
-       // Refresh address list after deletion
-       await fetchAddress();
-    } catch (error) {
-        console.error("Delete Address Error:", error);
-        toast.error("Failed to delete address");
-    }
+    const confirmed = window.confirm("Are you sure you want to delete this address?");
+    if (!confirmed) return;
+    await deleteAddress(addressId);
   };
 
   const handleSelectAddress = async (addressId) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.get(`http://localhost:3000/api/users/get-address?addressId=${addressId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      await fetchAddress(); // refresh after selecting
-      toast.success("Address selected!");
-
-    } catch (err) {
-      console.log("Selection Error:", err);
-      toast.error("Failed to select address");
-    }
-  }
+    await selectAddress(addressId);
+  };
 
   return (
     <section className="min-h-screen w-full bg-gradient-to-b from black to-[#d3d3d3] px-4 py-4">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CheckCircle } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
@@ -8,8 +8,20 @@ const OrderSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { orderId, paymentId, razorpayOrderId, totalAmount, paymentStatus } = location.state || {};
+ 
+
+  const {id, orderId, paymentId, razorpayOrderId, totalAmount, paymentStatus } = location.state || {};
   console.log("PaymentSuccess State:", location.state);
+
+   useEffect(() => {
+    if (id) {
+      const timer = setTimeout(() => {
+        navigate(`/order/${id}`);
+      }, 3000); // 5 seconds delay
+
+      return () => clearTimeout(timer); // cleanup if component unmounts
+    }
+  }, [id, navigate]);
   if (!orderId) {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-center">
@@ -38,7 +50,7 @@ const OrderSuccess = () => {
           Razorpay Order ID: <span className="text-black">{razorpayOrderId}</span>
         </p> */}
         <p className="text-lg font-bold mt-4">
-          Amount Paid: ₹{totalAmount}
+          {paymentStatus === "pending" ? "" : `Amount Paid : ${totalAmount}`}
         </p>
 
       {/* <CheckCircle className="text-green-500 w-16 h-16 mb-4" /> */}

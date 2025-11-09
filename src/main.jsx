@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.js"
-import { AddressProvider } from "./components/context/AddressContext";
+import { AddressProvider } from "./context/AddressContext.jsx";
 // import { CartProvider } from "./components/context/CartContext";
 
 createRoot(document.getElementById("root")).render(

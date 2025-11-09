@@ -43,6 +43,12 @@ import AdminVerifiedRiders from "./components/admin/AdminVerifiedRiders";
 import CartSummaryBar from "./components/user/cart/CartSummaryBar";
 import CartPage from "./components/user/cart/CartPage";
 import OrderSuccess from "./components/user/cart/OrderSuccess";
+import UserAddressMap from "./components/user/userAddress/UserAddressMap";
+import UserOrderPage from "./components/user/order/UserOrderPage"
+import OrderPage from "./components/restaurant/RestaurantOrder/OrderPage";
+import OrderDetails from "./components/restaurant/RestaurantOrder/OrderDetails";
+import AddAddress from "./components/user/userAddress/AddAddress";
+import CurrentLocation from "./components/user/userAddress/CurrentLocation";
 
 function App() {
   return (
@@ -65,11 +71,17 @@ function App() {
         <Route path="/admin-signup" element={<AdminSignup />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/address-page" element={<AddressCard />} />
-        <Route path="/map" element={<MapModalPage />} />
+        {/* <Route path="/map" element={<MapModalPage />} />*/}
         <Route
           path="/map/current-location"
-          element={<CurrentLocationMapModal />}
-        />
+          element={<CurrentLocation />}
+        /> 
+
+        {/* <Route path="/map" element={<UserAddressMap mode="add" />} />
+        <Route path="/map/current-location" element={<UserAddressMap mode="current" />} />
+        <Route path="/map/view" element={<UserAddressMap mode="view" />} /> */}/
+
+        <Route path="/map" element={<AddAddress />} />
 
         <Route
           path="/admin-home"
@@ -155,6 +167,11 @@ function App() {
             </ProtectedRoute>
             }
         />
+
+        <Route path="/order/:id" element={<UserOrderPage />} />
+
+        <Route path="/get/order" element={<OrderPage /> } />
+        <Route path="/get/order/:id" element={<OrderDetails />} />
       </Routes>
     </BrowserRouter>
   );
