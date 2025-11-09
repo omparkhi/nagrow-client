@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useLoadScript, GoogleMap } from "@react-google-maps/api";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useAddress } from "../../context/AddressContext";
+// import { useAddress } from "../../context/AddressContext";
 import MapMarker from "../../../assets/MapMarker.png";
 
 const LIBRARIES = ["places"];
