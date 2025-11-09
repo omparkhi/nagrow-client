@@ -6,7 +6,7 @@ import RiderLiveTracker from "./RiderLiveTracker";
 import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 
-const socket = io("http://localhost:3000"); 
+const socket = io(`${import.meta.env.VITE_SOCKET_URL}`); 
 
 const RiderDash = () => {
   const [status, setStatus] = useState("Offline");
@@ -19,7 +19,7 @@ const RiderDash = () => {
   useEffect(() => {
     const fetchRider = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/rider/${riderId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/rider/${riderId}`);
         setVerificationStatus(res.data.data?.verificationStatus || "pending");
       } catch (err) {
         console.error("Error fetching rider info", err);

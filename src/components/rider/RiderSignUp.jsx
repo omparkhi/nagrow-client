@@ -54,7 +54,7 @@ const RiderSignUp = ()=> {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/rider/register",
+        `${import.meta.env.VITE_API_URL}/api/rider/register`,
         formData
       );
       const{rider}= res.data;

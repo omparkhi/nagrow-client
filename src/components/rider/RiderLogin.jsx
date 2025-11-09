@@ -40,7 +40,7 @@ const RiderLogin = () => {
     setIsLogin(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/rider/login",
+        `${import.meta.env.VITE_API_URL}/api/rider/login`,
         formData
       );
       console.log(res.data);

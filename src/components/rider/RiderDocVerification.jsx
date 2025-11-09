@@ -21,7 +21,7 @@ const RiderDocVerification = () => {
     const fetchStatus = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/rider/get-verification-status/${riderId}`
+          `${import.meta.env.VITE_API_URL}/api/rider/get-verification-status/${riderId}`
         );
         setStatus(res.data.status); // "not_submitted", "pending", "verified", "rejected"
         setReason(res.data.reason || "");
@@ -59,7 +59,7 @@ const RiderDocVerification = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/rider/send-verify-req/rider",
+        `${import.meta.env.VITE_API_URL}/api/rider/send-verify-req/rider`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
