@@ -8,6 +8,7 @@ const OrderSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  
  
 
   const {id, orderId, paymentId, razorpayOrderId, totalAmount, paymentStatus } = location.state || {};
