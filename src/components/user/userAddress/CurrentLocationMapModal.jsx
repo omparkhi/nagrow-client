@@ -241,7 +241,7 @@ const CurrentLocationMapModal = () => {
       };
 
       const res = await axios.post(
-        "http://localhost:3000/api/users/save-address",
+        `${import.meta.env.VITE_API_UR}/api/users/save-address`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

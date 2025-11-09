@@ -26,7 +26,7 @@ const RestaurantLogin = () => {
     setIsLogin(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/restaurants/login",
+        `${import.meta.env.VITE_API_URL}/api/restaurants/login`,
         formData
       );
       console.log(res.data);

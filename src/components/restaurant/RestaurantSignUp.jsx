@@ -91,7 +91,7 @@ const RestaurantSignUp = () => {
     try {
       console.log("🚀 Payload sent to backend:", payload);
       const res = await axios.post(
-        "http://localhost:3000/api/restaurants/register",
+        `${import.meta.env.VITE_API_URL}/api/restaurants/register`,
         payload
       );
       const{ restaurant }=res.data;

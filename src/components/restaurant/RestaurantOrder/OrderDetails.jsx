@@ -37,7 +37,7 @@ const OrderDetails = () => {
         ))}
       </ul>
 
-      <h3>Delivery Address: {deliveryAddress}</h3>
+      <h3>Delivery Address: {deliveryAddress.formattedAddress}</h3>
       <h3>Payment Status: {paymentStatus}</h3>
       <h3>Payment Type: {paymentType}</h3>
       <h3>Total: ₹{totalAmount}</h3>

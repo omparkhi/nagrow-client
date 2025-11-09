@@ -25,7 +25,7 @@ const RestaurantDocVerification = () => {
     const fetchStatus = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/restaurants/${restaurantId}/status`
+          `${import.meta.env.VITE_API_URL}/api/restaurants/${restaurantId}/status`
         );
         setStatus(res.data.verificationStatus);
         setReason(res.data.rejectionReason || "");
@@ -64,7 +64,7 @@ const RestaurantDocVerification = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/restaurants/send-verify-req/restaurant",
+        `${import.meta.env.VITE_API_URL}/api/restaurants/send-verify-req/restaurant`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

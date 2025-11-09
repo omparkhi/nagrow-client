@@ -41,7 +41,7 @@ const UserDashRestaurantPage = () => {
     const fetchRestaurantDetails = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/api/restaurants/${id}`
+          `${import.meta.env.VITE_API_UR}/api/restaurants/${id}`
         );
         if (data.success) {
           // console.log("Restaurant data:", data.restaurant);

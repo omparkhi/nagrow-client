@@ -31,7 +31,7 @@ const UserLogin = () => {
     setIsLogin(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/login",
+        `${import.meta.env.VITE_API_UR}/api/users/login`,
         formData
       );
       console.log(res.data);

@@ -20,7 +20,7 @@ const Verification = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:3000/api/users/send-otp", {
+      const res = await axios.post(`${import.meta.env.VITE_API_UR}/api/users/send-otp`, {
         phone,
       });
       console.log(res.data);

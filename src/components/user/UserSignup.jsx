@@ -32,7 +32,7 @@ const UserSignup = () => {
     setIsSignup(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/register",
+        `${import.meta.env.VITE_API_UR}/api/users/register`,
         formData
       );
       console.log(res.data);

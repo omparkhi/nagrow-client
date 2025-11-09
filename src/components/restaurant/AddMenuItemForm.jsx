@@ -68,7 +68,7 @@ const AddMenuItemForm = ({ restaurantId, onClose, onSuccess }) => {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3000/api/restaurants/menu/add", data, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/restaurants/menu/add`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

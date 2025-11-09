@@ -144,7 +144,7 @@ const RestaurantDash = () => {
     if(!restaurantId) return;
     console.log("Restaurant Id: ", restaurantId);
 
-    const socket = io("http://localhost:3000");
+    const socket = io(`${import.meta.env.VITE_SOCKET_URL}`);
     socket.emit("joinRoom", { restaurantId });
     console.log("🔌 Connecting to socket...");
     socket.on("connect", () => {
