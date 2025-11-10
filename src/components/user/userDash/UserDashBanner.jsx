@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Lottie from "lottie-react";
 import FoodAnimate from "../../../assets/FoodAnimation.json";
+import Foodies from "../../../assets/foodies.json";
 import { MdPerson, MdSearch, MdMic } from "react-icons/md";
 import { FiChevronDown, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import BurgerPng from "../../../assets/burger.png";
@@ -78,7 +79,7 @@ const UserDashBanner = () => {
 
   return (
     <>
-      <div className=" bg-static-stripes h-auto rounded-b-[30px] overflow-hidden">
+      <div className="bg-gradient-to-b from-[#000000] via-[#141414] to-[#2C3E50] h-60 sm:h-70  rounded-b-[30px] ">
         {/* <div className=""></div> */}
         {/* Top Navbar Grid Layout */}
         <div
@@ -97,7 +98,7 @@ const UserDashBanner = () => {
               onClick={handleAddressCard}
             >
               <MdHome
-                className="text-2xl aligns-center text-[#ff5733] -mt-1"
+                className="text-2xl aligns-center text-white -mt-1"
                 // style={{
                 //   color: navbarOpacity > 0.1 ? "#000" : "#fff",
                 //   boxShadow: navbarOpacity > 0.2 ? "0 2px 10px rgba(0,0,0,0.1)" : "none",
@@ -135,18 +136,18 @@ const UserDashBanner = () => {
           </div>
 
           {/* </div> */}
-          <div className="bg-black grid place-items-center h-10 w-12 rounded-3xl cursor-pointer text-2xl text-slate-200">
+          <div className="bg-white grid place-items-center h-8 w-10 rounded-3xl cursor-pointer text-2xl text-slate-800">
             <MdPerson />
           </div>
         </div>
 
         {/* Animation Section */}
-        <div className="w-full text-center mt-10">
-          <div className="flex items-center justify-between w-full px-4 md:px-10 ">
+        <div className=" text-center sm:mt-27">
+          {/* <div className="flex items-center justify-between w-full px-4 md:px-10 "> */}
             {/* Left Image */}
 
             {/* Text in Middle */}
-            <div className="flex-grow text-center px-2 mt-6">
+            {/* <div className="flex-grow text-center px-2 mt-6">
               <h2
                 className="text-2xl md:text-4xl text-[#6A0DAD] drop-shadow-[0_2px_10px_rgba(255,255,255,0.5)]"
                 style={{
@@ -156,21 +157,19 @@ const UserDashBanner = () => {
               >
                 EAT BIG, SPEND SMALL!
               </h2>
-            </div>
+            </div> */}
 
             {/* Right Image */}
-          </div>
+          {/* </div>   */}
 
-          <div className=" mx-auto h-20 w-80 sm:h-25 sm:w-96 md:h-25 md:w-[40%] flex items-center justify-center overflow-hidden">
-            <Lottie animationData={FoodAnimate} loop={true} />
+          <div className=" mx-auto sm:-mt-8 w-75 sm:h-30 sm:w-[50%] md:w-[40%] lg:w-[30%] flex items-center justify-center">
+            <Lottie animationData={Foodies} loop={true} />
           </div>
-          <div className="text-slate-300 text-sm">
-            From Kitchen to Your Doorstep
-          </div>
+          
         </div>
       </div>
 
-      <div className="sticky top-0 z-50 w-full py-2 flex justify-center px-4 -mt-47 sm:-mt-53">
+      <div className="sticky top-0 z-50 w-full py-2 flex justify-center px-4 -mt-42 sm:-mt-50">
         <div className="relative flex items-center bg-white rounded-[8px] px-1 py-2 shadow-md border-1 border-gray-300">
           <MdSearch className="text-[#ff5733] text-xl min-w-[3rem]" />
           <input
@@ -238,7 +237,7 @@ const UserDashBanner = () => {
       {/* <Lottie animationData={FoodAnimate} loop={true}  />  */}
 
       {/* </div> */}
-      <div className="w-full absolute flex justify-between overflow-hidden">
+      {/* <div className="w-full hidden md:block absolute flex justify-between overflow-hidden">
         <img
           src={PaneerPng}
           className={`rotate-10 w-24 sm:w-40 md:w-[18%] object-contain -ml-4 sm:mr-0 mt-15 sm:mt-13 md:mt-2 ${
@@ -252,7 +251,7 @@ const UserDashBanner = () => {
             isShaking ? "shake-once" : ""
           }`}
         />
-      </div>
+      </div> */}
     </>
   );
 };
