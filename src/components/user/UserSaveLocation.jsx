@@ -24,7 +24,7 @@ const SaveLocation = () => {
         try {
           const token = localStorage.getItem("token");
           const res = await axios.post(
-            `${import.meta.env.VITE_API_UR}/api/users/save-address`,
+            `${import.meta.env.VITE_API_URL}/api/users/save-address`,
             {
               label: "Home", // You can make it dynamic later
               latitude,
