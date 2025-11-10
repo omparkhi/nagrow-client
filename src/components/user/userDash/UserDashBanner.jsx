@@ -208,25 +208,21 @@ const UserDashBanner = () => {
           <MdMic className="text-2xl cursor-pointer text-[#ff5733]  min-w-[3rem]" />
         </div>
         <div
-          className={`w-auto  rounded-[8px] ml-2 px-2 shadow-md ${
-            isVegOnly ? "bg-green-700" : "bg-white"
-          }`}
+          className="w-auto bg-white rounded-[8px] ml-2 px-2 shadow-md"
         >
           <h6
-            className={`text-[15px] ${
-              isVegOnly ? "text-bold" : "text-gray-700"
-            }`}
+            className="text-[15px] text-gray-700 font-bold"
           >
-            Veg
+            VEG
           </h6>
           <button
             onClick={() => setIsVegOnly(!isVegOnly)}
             className={`w-full h-3 flex items-center bg-gray-300 rounded-sm p-1 transition duration-300 ${
-              isVegOnly ? "bg-green-500" : "bg-gray-300"
+              isVegOnly ? "bg-green-600" : "bg-gray-300"
             }`}
           >
             <div
-              className={`bg-white w-2 h-2 rounded-sm shadow-md transform transition-transform duration-300 ${
+              className={` w-[0.8rem] h-[0.8rem] bg-white border border-slate-500 shadow-sm rounded-xl transform transition-transform duration-300 ${
                 isVegOnly ? "translate-x-3" : "translate-x-0"
               }`}
             ></div>

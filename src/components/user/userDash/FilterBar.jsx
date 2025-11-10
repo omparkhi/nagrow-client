@@ -94,16 +94,16 @@ const FilterBar = ({ onFilterChange }) => {
   return (
     <>
       {/* --- Main Filter Bar --- */}
-      <div className="flex flex-wrap gap-3 py-4 bg-white shadow-sm rounded-lg px-2 sm:px-4 relative">
+      <div className="mt-3 flex gap-2  relative overflow-x-auto  whitespace-nowrap scroll-smooth no-scrollbar">
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-800 font-medium text-sm"
+          className="flex items-center gap-2 px-2 py-1 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-800 font-medium text-sm"
         >
           <SlidersHorizontal className="w-4 h-4" />
           <span>Filter</span>
         </button>
 
         <button
-          className={`px-4 py-2 rounded-xl border text-sm font-medium shadow-sm ${
+          className={`px-2 py-1 rounded-xl border text-sm font-medium shadow-sm ${
             vegOnly
               ? "bg-green-500 text-white border-green-500"
               : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
@@ -114,7 +114,7 @@ const FilterBar = ({ onFilterChange }) => {
         </button>
 
         <button
-          className={`px-4 py-2 rounded-xl border text-sm font-medium shadow-sm ${
+          className={`px-2 py-1 rounded-xl border text-sm font-medium shadow-sm ${
             nonVegOnly
               ? "bg-green-500 text-white border-green-500"
               : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
@@ -127,7 +127,7 @@ const FilterBar = ({ onFilterChange }) => {
         {ratingOptions.map((r) => (
           <button
             key={r}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-medium shadow-sm ${
+            className={`flex items-center gap-2 px-2 py-1 rounded-xl border text-sm font-medium shadow-sm ${
               rating === r
                 ? "bg-green-500 text-white border-green-500"
                 : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
