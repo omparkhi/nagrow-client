@@ -26,7 +26,7 @@ const RestaurantHeader = () => {
           `${import.meta.env.VITE_API_URL}/api/restaurants/${id}`
         );
         if (data.success) {
-          console.log("Restaurant data:", data.restaurant);
+          // console.log("Restaurant data:", data.restaurant);
           setRestaurant(data.restaurant);
           //   setMenu(data.menu);
         }

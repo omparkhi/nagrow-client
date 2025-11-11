@@ -27,14 +27,14 @@ const UserLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
     setIsLogin(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/users/login`,
         formData
       );
-      console.log(res.data);
+      // console.log(res.data);
       const {user} = res.data;
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
@@ -46,7 +46,7 @@ const UserLogin = () => {
         toast.error("Login failed");
       }
     } catch (error) {
-      console.log("Login Failed", error);
+      // console.log("Login Failed", error);
       toast.error("Login failed. Please check credentials.");
     } finally {
       setIsLogin(false);

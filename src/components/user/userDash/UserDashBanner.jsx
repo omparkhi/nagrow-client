@@ -223,7 +223,7 @@ const UserDashBanner = () => {
           >
             <div
               className={` w-[0.8rem] h-[0.8rem] bg-white border border-slate-500 shadow-sm rounded-xl transform transition-transform duration-300 ${
-                isVegOnly ? "translate-x-3" : "translate-x-0"
+                isVegOnly ? "translate-x-3 " : "translate-x-0"
               }`}
             ></div>
           </button>

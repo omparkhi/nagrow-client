@@ -44,7 +44,7 @@ const UserDashRestaurants = ({ filters = {} }) => {
         const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/restaurants/home`
         );
-        console.log(res.data.restaurants);
+        // console.log(res.data.restaurants);
         setRestaurants(res.data.restaurants);
       } catch (err) {
         console.log(err);

@@ -28,26 +28,27 @@ const UserSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
     setIsSignup(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/users/register`,
         formData
       );
-      console.log(res.data);
+      // console.log(res.data);
       const{user} = res.data;
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userType", "user");
         localStorage.setItem("userId", user.id);
-        console.log("User Registered Successfully!");
+        // console.log("User Registered Successfully!");
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res.data.token}`;
         localStorage.removeItem("verified");
         navigate("/save-address");
       } else {
+        alert(res.data.message);
         console.log(res.data.message);
       }
     } catch (error) {
