@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getTotalItems, getSubtotal, getCart, getGrandTotal } from "../../../features/usercart/cartSlice";
+import { getTotalItems, getSubtotal, getCart, getGrandTotal,  clearCart } from "../../../features/usercart/cartSlice";
+import { Home, Trash } from "lucide-react";
 
 
 const CartSummaryBar = () => {
@@ -10,6 +11,7 @@ const CartSummaryBar = () => {
 
   const grandTotal = useSelector(getGrandTotal);
   const totalItem = useSelector(getTotalItems);
+
   const items = cart?.items || [];
   const restaurantId = cart?.restaurantId;
   const navigate = useNavigate();
@@ -18,6 +20,10 @@ const CartSummaryBar = () => {
 
   if (isCartPage) return null;
   if (!items || items.length === 0) return null;
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
 
   
   return (
@@ -33,6 +39,10 @@ const CartSummaryBar = () => {
         >
           View Cart
         </button>
+        <div className="p-2 hover:bg-gray-300 cursor-pointer rounded-sm" onClick={handleClearCart}>
+          <Trash className="text-red-500" size={20} />
+        </div>
+        
       </div>
     </div>
   );

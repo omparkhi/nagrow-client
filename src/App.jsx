@@ -59,7 +59,7 @@ function App() {
         <Route path="/" element={<HomeRedirector />} />
         <Route path="/customer-options" element={<UserRoleOptions />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/user-verification" element={<Verification />} />
+        {/* <Route path="/user-verification" element={<Verification />} /> */}
         <Route path="/user-signup" element={<UserSignup />} />
         <Route path="/user-login" element={<UserLogin />} />
         <Route path="/restaurant-signup" element={<RestaurantSignUp />} />

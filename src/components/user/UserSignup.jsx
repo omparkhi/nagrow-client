@@ -57,15 +57,15 @@ const UserSignup = () => {
     }
   };
 
-  useEffect(() => {
-    const verified = localStorage.getItem("verified");
-    const verifiedPhone = localStorage.getItem("verifiedPhone");
-    if (!verified) {
-      navigate("/user-verification");
-    } else {
-      setFormData((prev) => ({...prev, phone: verifiedPhone || ""}));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const verified = localStorage.getItem("verified");
+  //   const verifiedPhone = localStorage.getItem("verifiedPhone");
+  //   if (!verified) {
+  //     navigate("/user-verification");
+  //   } else {
+  //     setFormData((prev) => ({...prev, phone: verifiedPhone || ""}));
+  //   }
+  // }, []);
 
   return (
     <>
@@ -151,17 +151,18 @@ const UserSignup = () => {
                 id="phone"
                 value={formData.phone}
                 name="phone"
+                onChange={handleChange}
                 type="tel"
-                disabled
+            
                 pattern="[0-9]{10}"
                 maxLength={10}
                 inputMode="numeric"
                 placeholder="Enter your phone number"
-                className="border-none focus:outline-none cursor-not-allowed"
+                className="border-none focus:outline-none "
               />
-              <span className="ml-2 text-green-600 font-semibold text-sm">
+              {/* <span className="ml-2 text-green-600 font-semibold text-sm">
                 Verified 
-              </span>
+              </span> */}
             </div>
 
             <label

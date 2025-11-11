@@ -13,7 +13,7 @@ const UserRoleOptions = () => {
             Login
           </button>
         </Link>
-        <Link to="/user-verification">
+        <Link to="/user-signup">
           <button className="w-full border-2 border-[#ff5733] text-[#ff5733] py-3 rounded-xl text-xl font-medium">
             Sign Up
           </button>

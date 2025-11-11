@@ -159,7 +159,7 @@ const UserLogin = () => {
             <p className="text-center text-sm mt-5">
               Don’t have an account?{" "}
               <Link
-                to="/signup"
+                to="/user-signup"
                 className="text-[#ff5733] text-sm font-semibold"
               >
                 SIGN UP
