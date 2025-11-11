@@ -1,12 +1,12 @@
     import React, { useRef, useCallback, useEffect, useState } from "react";
-    import { useLoadScript, GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+    import MapContainer from "./MapContainer";
     import { reverseGeocode } from "../../utils/reverseGeocode";
+    import { useMapLoader } from "./useMapLoader";
+    import { useCurrentLocation } from "./useCurrentLocation";
     import PlaceAutocompleteInput from "./PlaceAutocompleteInput";
     import { toast } from "react-toastify";
     import MapMarker from "../../assets/MapMarker.png";
-    import { useLocation } from "react-router-dom";
 
-    const libraries = ["places"]; 
 
     const MapPicker = ({ 
         initialCenter,
@@ -15,96 +15,72 @@
         showSave = true,
     }) => {
 
-        // const location = useLocation();
-        // const [isUserLocated, setIsUserLocated] = useState(false);
+        const { isLoaded } = useMapLoader();
+        const { location: fallback, loading: loadingLocation } = useCurrentLocation();
         const [center, setCenter] = useState(initialCenter || null);
         const [address, setAddress] = useState("");
         const [searchValue, setSearchValue] = useState("");
         const [loading, setLoading] = useState(false);
-        const mapRef = useRef();
-
-        const { isLoaded } = useJsApiLoader({
-                id: "google-map-script",
-                googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-                libraries,
-        });
-
-        // Get current location once if no initialCenter
-        useEffect(() => {
-  return () => {
-    mapRef.current = null;
-  };
-}, []);
+        const mapRef = useRef(null);
 
 
-    useEffect(() => { 
-        if (initialCenter) return;
 
-        if (!navigator.geolocation) {
-            toast.error("Geolocation not supported by browser");
-            setCenter({ lat: 21.1458, lng: 79.0882 });
-            return;
+     const handleIdle = useCallback(async () => {
+    if (!mapRef.current) return;
+
+    const c = mapRef.current.getCenter();
+    if (!c) return;
+
+    const newCenter = { lat: c.lat(), lng: c.lng() };
+    setCenter((prev) => {
+        if (
+            !prev ||
+            Math.abs(prev.lat - newCenter.lat) > 0.000001 ||
+            Math.abs(prev.lng - newCenter.lng) > 0.000001
+        ) {
+            return newCenter;
         }
+        return prev; // no change → no rerender
+    });
 
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-            },
-            (err) => {
-                console.error("Geolocation error:", err);
-                setCenter({ lat: 21.1458, lng: 79.0882 }); // fallback Nagpur
-                toast.warn("Using fallback location");
-            },
+    // console.log("Center changed:", newCenter);
 
-            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } 
-        );
-    }, [initialCenter]);
+    setLoading(true);
+    try {
+      const addr = await reverseGeocode(newCenter.lat, newCenter.lng);
+      console.log("Reverse geocoded address:", addr);
+      const formatted =
+        typeof addr === "object"
+          ? addr.formattedAddress || addr.fullAddress || JSON.stringify(addr)
+          : addr;
+      setAddress(formatted);
+    } catch (err) {
+      console.error("Reverse geocode error:", err);
+      setAddress("");
+    } finally {
+      setLoading(false);
+    }
+  }, [reverseGeocode]);
 
-    
+//   // ✅ Initialize map once location is available
+//   useEffect(() => {
+//     if (!center && !loadingLocation && fallback) {
+//       setCenter(fallback);
+//     }
+//   }, [center, loadingLocation, fallback]);
 
-        // Reverse geocode on map move
-        const handleIdle = useCallback(async () => {
-            if(!mapRef.current) return;
-            const c = mapRef.current.getCenter();
-            if(!c) return;
+  if (!isLoaded) return <p>Loading map...</p>;
+  if (loadingLocation || !center) return <p>Getting your location...</p>;
 
-            const lat = c.lat();
-            const lng = c.lng();
-            setLoading(true);
-            // console.log("Center lat/lng before reverse geocode:", lat, lng);
+  const handleSave = () => {
+    if (!address) return toast.error("Select a valid address");
+    onSelect?.({ address, latitude: center.lat, longitude: center.lng });
+  };
 
-            try {
-                const addr = await reverseGeocode(lat, lng);
-                setAddress(addr);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        }, []);
-
-        const handlePlaceSelect = (data) => {
-            setCenter({ lat: data.lat, lng: data.lng });
-            setAddress(data.address);
-        };
-
-        if (!isLoaded) return <p>Loading Google Maps...</p>;
-        if (!center) return <p>Fetching your current location...</p>;
-
-
-
-
-        const handleSave = () => {
-            if (!address) return toast.error("Select a valid address");
-            onSelect?.({ 
-                address, 
-                latitude: center.lat, 
-                longitude: center.lng 
-            });
-        };
-
-
-        
+  const handlePlaceSelect = ({ lat, lng, address }) => {
+    setCenter({ lat, lng });
+    setAddress(address);
+  };
         return (
             <div className="relative w-full h-[75vh] flex flex-col gap-2">
                 <PlaceAutocompleteInput
@@ -114,13 +90,15 @@
                 />
 
                 <div className="relative flex-1">
-                    <GoogleMap
-                        mapContainerStyle={{ width: "100%", height: "100%" }}
-                        center={center}
-                        zoom={19}
-                        onLoad={(map) => (mapRef.current = map)}
+                    <MapContainer 
+                        center={center} 
+                        zoom={18} 
+                        onLoad={(m) => {
+                            mapRef.current = m;
+                            handleIdle(); // fetch address immediately for initial position
+                        }}
                         onIdle={handleIdle}
-                    />
+                        />
 
                     <img
                         src={MapMarker} 

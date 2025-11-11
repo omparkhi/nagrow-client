@@ -14,7 +14,7 @@ import "../../../App.css";
 import { MdHome } from "react-icons/md";
 
 const UserDashBanner = () => {
-  const { addresses, loading } = useAddress();
+  const { addresses, selectedAddress, loading } = useAddress();
   const navigate = useNavigate();
   // const [homeAddress, setHomeAddress] = useState(null);
   const placeholder = ["Cake", "Pizza", "Biryani", "Burger", "Thali"];
@@ -26,7 +26,7 @@ const UserDashBanner = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
 
-  const homeAddress = addresses[0] || null;
+  const homeAddress = selectedAddress || null;
 
   useEffect(() => {
     const interval = setInterval(() => {

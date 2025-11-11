@@ -29,8 +29,7 @@ import AdminDash from "./components/admin/AdminDash";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
 
 import AddressCard from "./components/user/userAddress/AddressCard";
-import MapModalPage from "./components/user/userAddress/MapModalPage";
-import CurrentLocationMapModal from "./components/user/userAddress/CurrentLocationMapModal";
+
 
 import UserDashRestaurantPage from "./components/user/userDash/UserDashRestaurantPage";
 import AdminUnverifiedRestaurants from "./components/admin/AdminUnverifiedRestaurants";
@@ -43,12 +42,14 @@ import AdminVerifiedRiders from "./components/admin/AdminVerifiedRiders";
 import CartSummaryBar from "./components/user/cart/CartSummaryBar";
 import CartPage from "./components/user/cart/CartPage";
 import OrderSuccess from "./components/user/cart/OrderSuccess";
-import UserAddressMap from "./components/user/userAddress/UserAddressMap";
+
 import UserOrderPage from "./components/user/order/UserOrderPage"
 import OrderPage from "./components/restaurant/RestaurantOrder/OrderPage";
 import OrderDetails from "./components/restaurant/RestaurantOrder/OrderDetails";
 import AddAddress from "./components/user/userAddress/AddAddress";
-import CurrentLocation from "./components/user/userAddress/CurrentLocation";
+
+import CurrentLocationPage from "./components/user/userAddress/CurrentLocationPage";
+import ViewOnMapPage from "./components/user/userAddress/ViewOnMapPage";
 
 function App() {
   return (
@@ -71,17 +72,12 @@ function App() {
         <Route path="/admin-signup" element={<AdminSignup />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/address-page" element={<AddressCard />} />
-        {/* <Route path="/map" element={<MapModalPage />} />*/}
         <Route
           path="/map/current-location"
-          element={<CurrentLocation />}
+          element={<CurrentLocationPage />}
         /> 
-
-        {/* <Route path="/map" element={<UserAddressMap mode="add" />} />
-        <Route path="/map/current-location" element={<UserAddressMap mode="current" />} />
-        <Route path="/map/view" element={<UserAddressMap mode="view" />} /> */}/
-
         <Route path="/map" element={<AddAddress />} />
+        <Route path="/map/view" element={<ViewOnMapPage />} /> 
 
         <Route
           path="/admin-home"

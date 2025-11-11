@@ -1,40 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import MapPicker from "../../maps/MapPicker";
-import { useNavigate, useLocation } from "react-router-dom";
 import { useAddress } from "../../../context/AddressContext";
+import { useCurrentLocation } from "../../maps/useCurrentLocation";
 
 const AddAddress = () => {
-    const { state } = useLocation();
-    const existing = state?.address;
-    const [label, setLabel] = useState(existing?.label || "");
-   
     const navigate = useNavigate();
     const { saveAddress } = useAddress();
+    const { location, loading } = useCurrentLocation();
 
-    const handleSave = async ({ address, latitude, longitude }) => {
-        const payload = {
-            addressId: address?._id,
-            label,
+    const handleSelect = async ({ address, latitude, longitude }) => {
+        await saveAddress({
+            label: "new",
             latitude,
             longitude,
-            fullAddress: address?.fullAddress,
-        }
-        await saveAddress(payload);
-        navigate(-1);
+            formattedAddress: address.formattedAddress,
+            fullAddress: address,
+            coordinates: { type: "Point", coordinates: [longitude, latitude] },
+        });
+
+        navigate("/address-page");
     };
+
+    if (loading || !location) return <p>Getting your location...</p>;
 
     return (
         <div>
-            <input
-            value={label}
-            onChange={(e) => setLabel(e.target.value)}
-            placeholder="Label (Home, Work...)"
-            className="w-full border px-3 py-2 rounded mb-2"
-          />
-            <MapPicker onSelect={handleSave} />
+            <MapPicker
+                initialCenter={location}
+                onSelect={handleSelect}
+                onCancel={() => navigate("/address-page")}
+                showSave={true}
+            />
         </div>
-    )
-    
-}
+    );
+};
 
 export default AddAddress;
